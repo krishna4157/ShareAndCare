@@ -1,0 +1,42 @@
+{
+    "project_info": {
+      "project_number": "701832991383",
+      "firebase_url": "https://ezpro-da0e3.firebaseio.com",
+      "project_id": "ezpro-da0e3",
+      "storage_bucket": "ezpro-da0e3.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:701832991383:android:54770415e6f45c1c",
+          "android_client_info": {
+            "package_name": "com.alphaclinicalsystems.ezpro"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "701832991383-71k9t2dvjv34hrfbbtpnok515kjupo6c.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyC22NnCnOuELDPNnXBnZxH9HJR5tupk9yA"
+          }
+        ],
+        "services": {
+          "analytics_service": {
+            "status": 1
+          },
+          "appinvite_service": {
+            "status": 1,
+            "other_platform_oauth_client": []
+          },
+          "ads_service": {
+            "status": 2
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

@@ -1,0 +1,49 @@
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  display: block;
+  width: 288px !important;
+  /* border: none;   */
+  /* color: rgb(0, 0, 0); */
+  height: 20px;
+  /* padding-left: 2px; */
+  border-width: 1px;
+  border-color: 'black';
+  margin-bottom: 6px;
+  /* padding-right: 5px; */
+}
+
+    /* border-bottom: 2px solid rgb(217, 213, 220);
+    padding: 2px; */
+
+.react-datepicker__input-container input {
+
+  padding: 5px !important;
+  border: solid 1px;
+  border-color: gray;
+   width: -webkit-fill-available
+}
+
+.react-datepicker__input-container input::placeholder {
+    margin-left: 0;
+    color: 'grey';
+    opacity: 1;
+    font-size: 14px
+ }
+
+ .webdatepk15::placeholder, .webdatepk15 {
+  font-size: 15px;
+}
+
+.webdatepk22::placeholder, .webdatepk22 {
+  font-size: 22px;
+}
+
+.webdatepk12::placeholder, .webdatepk12 {
+  font-size: 12px;
+}
+
+.webdatepk10::placeholder, .webdatepk10 {
+  font-size: 10px;
+}

@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "ezpro-app",
+    "slug": "ezpro-app",
+    "version": "2.0.0",
+    "sdkVersion": "39.0.0",
+    "orientation": "portrait",
+    "icon": "./images/icon.png",
+    "splash": {
+      "image": "./assets/acslogo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.alphaclinicalsystems.ezpro"
+    },
+    "android": {
+      "package": "com.alphaclinicalsystems.ezpro"
+    },
+    "web": {
+      "build": {
+        "babel": {
+          "include": ["static-container"]
+        }
+      },
+      "favicon": "./images/icon.png"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  }
+}

@@ -1,0 +1,3 @@
+
+I was getting duplicated notifications because of developing 2 apps with the same package name.
+Both were receiving
