@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { View, Keyboard, Image,TextInput, Text as RcText, Dimensions, StatusBar, Platform, TouchableOpacity, ActivityIndicator,Animated as NewAnimated } from 'react-native';
+import { View, Keyboard, Image,TextInput, Text as RcText, Dimensions, StatusBar, Platform, TouchableOpacity, ActivityIndicator,Animated as NewAnimated, KeyboardAvoidingView } from 'react-native';
 import { Input, Item, Button,Text, Icon, Card, CardItem, Body } from 'native-base';
 import { createForm } from 'rc-form';
 import { MaterialIcons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -19,7 +19,10 @@ import {
   } from 'react-native-indicators';
 import { validateLoginDetails } from '../utils/loginUtils';
 import { backgroundColor } from '../containers/NavigationScreens';
-import logo from '../assets/images/cloud_load.gif'
+import logo from '../assets/images/butterfly.gif';
+import success from '../assets/images/success.gif';
+import error from '../assets/images/error.png';
+
 import { NavigationEvents } from 'react-navigation';
 // import CustomToast from './CustomToast'; 
 // import DeviceInfo from 'react-native-device-info';
@@ -40,18 +43,25 @@ import Colors from '../constants/Colors';
 import { Animated, StyleSheet } from 'react-native-web';
 // import { fetchBodyTemperature, fetchLatestWeight, getWeight, testData } from '../utils/healthKit/Healthkit';
 // import { saveHealthkitData } from '../actions/healthkit';
+import showToast from '../utils/toast';
 
 
 class Login extends React.Component {
 
   constructor(props) {
     super(props);
+    this.Animation = new Animated.Value(0);
     this.state = {
       startValue: new Animated.Value(0),
-      wrongValue: new Animated.Value(0),
-      endValue: 150,
-      duration: 5000,
-      isVisible: false
+      moveLeftValue: new Animated.Value(0),
+      moveRightValue: new Animated.Value(360),
+      endValue: 30,
+      endMoveValue: 300,
+      duration: 3000,
+      isVisible: false,
+      isSuccess: 0,
+      isPasswordVisible: false,
+      statusColor: 'yellow'
     };
   }
 
@@ -62,21 +72,119 @@ class Login extends React.Component {
       useNativeDriver: true,
     }).start();
 
+
     setTimeout(() => {
       this.setState({
         isVisible: true
       })
-    }, 4000);
+    }, 500);
+  }
+
+
+  getCorrectPassword = () => {
+    this.setState({
+      statusColor: 'blue'
+    });
+    this.StartBackgroundColorAnimation();
+    // Animated.timing(this.state.moveLeftValue, {
+    //   toValue: 360,
+    //   duration: 500,
+    //   useNativeDriver: true,
+    // }).start();
+
+    
+    Animated.timing(this.state.moveLeftValue, {
+      toValue: 360,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+
+    Animated.timing(this.state.moveRightValue, {
+      toValue: 360,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+
+    setTimeout(() => {
+      Animated.timing(this.state.moveRightValue, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    
+      this.setState({
+        isSuccess: 1
+      })
+    }, 5000);
+    setTimeout(() => {
+      showToast('Login Successfully', 'success', 3000);  
+    }, 6000);
+    
+
   }
 
 
   getWrongPassword = () => {
-    Animated.timing(this.state.wrongValue, {
-      toValue: 300,
-      duration: this.state.duration,
+    this.setState({
+      statusColor: 'blue'
+    });
+    this.setState({
+      isSuccess: 0
+    });
+    this.StartBackgroundColorAnimation();
+    // Animated.timing(this.state.moveLeftValue, {
+    //   toValue: 360,
+    //   duration: 500,
+    //   useNativeDriver: true,
+    // }).start();
+
+    
+    Animated.timing(this.state.moveLeftValue, {
+      toValue: 360,
+      duration: 500,
       useNativeDriver: true,
     }).start();
+
+    Animated.timing(this.state.moveRightValue, {
+      toValue: 360,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+
+
+    setTimeout(() => {
+      Animated.timing(this.state.moveLeftValue, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+
+      Animated.timing(this.state.moveRightValue, {
+        toValue: 360,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    
+      this.setState({
+        isSuccess: 0.5
+        
+      })
+      showToast('Failed to login', 'danger', 3000);
+
+    }, 5000);
+
+    setTimeout(() => {
+    
+      this.setState({
+        isSuccess:2
+      })
+    }, 10000);
+    
+
+
   }
+
+  
     
   //     wrongPassword=()=>{
   //   // NewAnimated.spring(this.moveAnimation, {
@@ -103,7 +211,6 @@ class Login extends React.Component {
   //     passwordColor: 'green'
   //   })
   //   this.setDataAndNavigate()
-
   // }
 
   // loginValidate = () => {
@@ -116,7 +223,6 @@ class Login extends React.Component {
   //   // this.wrongPassword();
   //   this.rightPassword();
   //   // this.setDataAndNavigate()
-
   // }
 
   // moveRight = () => {
@@ -140,40 +246,55 @@ class Login extends React.Component {
   onSubmit = (values) => {
     alert(JSON.stringify(values));
   }
+
+  StartBackgroundColorAnimation = () =>
+    {
+        this.Animation.setValue(0);
+
+        Animated.timing(
+            this.Animation,
+            {
+                toValue: 1,
+                duration: 5000
+            }
+        ).start(() => { this.StartBackgroundColorAnimation() });
+    }
       
     render(){
-        const { image, subject, errorMessage, showPassword,language,languageSelected, callingCode, modalVisible } = this.state;
+        const { image, subject, errorMessage, showPassword,language,languageSelected, callingCode, modalVisible,isPasswordVisible } = this.state;
         const { loading, navigation, screenProps,currentScreen, deviceLocation } = this.props;
         const { t } = screenProps;
-        const  { isVisible } =this.state;
+        const  { isVisible,statusColor,isSuccess } =this.state;
       // alert(callingCode);
-        return (
-          <View style={{flex:1,justifyContent:'center'}}>
-          
-          <View style={{flex:3,backgroundColor:'green',borderBottomRightRadius:360}}>
-          <Animated.View
-            style={
-              {
-                transform: [
-                  {
-                    translateY: this.state.startValue,
-                  },
-                ],
-            }}
-          >          
-          <FadeInView>
-          <Image
-        source={logo}
-        style={{height:100,width:100,alignSelf:'center'}}
-      />
-            <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>Share And Care</Text>
-          </FadeInView>
-        </Animated.View>
-        </View>
+      const BackgroundColorConfig = this.Animation.interpolate(
+        {
+            inputRange: [ 0, 0.2, 0.4, 0.8, 1 ],
+            
+            outputRange: [ 'white', '#CDDC39', '#03A9F4', '#FFEB3B', 'white' ]
 
-        <View style={{flex:3}}>
-        {isVisible && <FadeInView>
-          <Formik
+        });
+
+
+        const SuccessBackgroundColor = this.Animation.interpolate(
+          {
+              inputRange: [ 0,0.5, 1 ],
+              
+              outputRange: [ '#009688', 'green','#009688']
+  
+          });
+
+          const FailureBackgroundColor = this.Animation.interpolate(
+            {
+                inputRange: [ 0,0.5, 1 ],
+                
+                outputRange: [ 'white', 'red', 'white',]
+    
+            });
+
+
+
+      return (
+        <Formik
           initialValues={{ phoneNo: '', password: '' ,
           // language: ''
         }}
@@ -189,9 +310,14 @@ class Login extends React.Component {
           onSubmit={(values, formikActions) => {
             setTimeout(() => {
               // console.log(JSON.stringify(values));
-
+              if(values.password=='Asdx#123'){
+                this.getCorrectPassword();
+              } else 
+              {
+                this.getWrongPassword();
+              }
               // Alert.alert(JSON.stringify(values));
-               this.onSubmit(values);
+              //  this.onSubmit(values);
               // Important: Make sure to setSubmitting to false so our loading indicator
               // goes away.
               formikActions.setSubmitting(false);
@@ -207,13 +333,49 @@ class Login extends React.Component {
             }
           
             return (
-                    <View>
+
+              // <KeyboardAvoidingView>
+              <View style={{flex:1,height:'100%',justifyContent:'center'}}>
                     <NavigationEvents
-                   onWillFocus={() => {
-                       this.resetCredentials();
-                     }}
+                  //  onWillFocus={() => {
+                  //      this.resetCredentials();
+                  //    }}
                  />
-               <View>
+                 <Animated.View 
+          style={{
+            flex:3,
+            borderBottomRightRadius:this.state.moveRightValue,
+            borderBottomLeftRadius:this.state.moveLeftValue,
+            backgroundColor: isSuccess == 0.5 ? FailureBackgroundColor : isSuccess ==1 ? SuccessBackgroundColor : isSuccess>1 ? 'white' :BackgroundColorConfig
+          }}>
+          {/* <View
+            style={
+              {
+                flex:1,
+                backgroundColor:'red',
+                
+            }}
+          >           */}
+          <FadeInView>
+          {/* isSuccess == 0.5 ? FailureBackgroundColor : isSuccess ==1 ? SuccessBackgroundColor : isSuccess>1 ? 'white' :BackgroundColorConfig */}
+         <Image
+      source={logo}
+      style={{height:150,width:150,alignSelf:'center',overflow:'hidden'}}
+    />
+            <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>Share And Care</Text>
+          </FadeInView>
+        {/* </View> */}
+        </Animated.View>
+        <Animated.View style={{flex:3,
+        padding:10
+        ,transform: [
+                  {
+                    translateY: this.state.startValue,
+                    
+                  },
+                ],}}>
+               {isVisible && <FadeInView>
+                 <View>
                       <PhNumberInput 
                       deviceLocation={deviceLocation}
                       callingCode={callingCode}
@@ -234,10 +396,20 @@ class Login extends React.Component {
                             //  value={subject.password} 
                              placeholder={t('LoginACSPwd')} 
                              placeholderTextColor='#bdbdbd' 
-                             secureTextEntry={true} 
+                             secureTextEntry={isPasswordVisible ? false : true} 
                              style={styles.inputText} 
                              onChangeText={props.handleChange('password')}
                              />
+                             <TouchableOpacity onPress={()=>{
+                               this.setState({
+                                 isPasswordVisible:!this.state.isPasswordVisible
+                               })
+                             }}>
+                             {this.state.isPasswordVisible ? 
+                             <MaterialIcons name='visibility' size={20} color="#bdbdbd" style={styles.icon} /> : 
+                             <MaterialIcons name='visibility-off' size={20} color="#bdbdbd" style={styles.icon} /> 
+                             }
+                             </TouchableOpacity>
          {/* { Platform.OS !=='ios' ? <MaterialCommunityIcons name={showPassword ? "eye-off" : "eye"} size={25} color="#bdbdbd" style={{ marginRight: 10 }} onPress={() => this.showPassword()}/> : <View/> } */}
                          </Item>
               {props.touched.password && props.errors.password ? (
@@ -280,7 +452,8 @@ class Login extends React.Component {
               <Button
                 style={{justifyContent:'flex-end',padding:10,borderRadius:10,backgroundColor:backgroundColor}}
                 // onPress={() => { setTimeout(() => { this.onSubmit() }, 0) }}
-                onPress={props.handleSubmit}
+                // onPress={props.handleSubmit}
+              onPress={props.handleSubmit}
                 // onLongPress={() => { 
                 //   // testData();
                 //   // getWeight();
@@ -296,12 +469,12 @@ class Login extends React.Component {
               {/* <MaterialIcons style={{ paddingRight: 10}} name='arrow-forward' size={25} color="#fff"/> */}
               </Button>
               </View>
+              </FadeInView>}
+              </Animated.View>
               </View>
+              // </KeyboardAvoidingView>
           )}}
         </Formik>
-        </FadeInView>}
-        </View>
-        </View>
                     );
 
     }
@@ -335,7 +508,7 @@ const FadeInView = (props) => {
       fadeAnim,
       {
         toValue: 1,
-        duration: 2000,
+        duration: 1000,
       }
     ).start();
   }, [fadeAnim])
