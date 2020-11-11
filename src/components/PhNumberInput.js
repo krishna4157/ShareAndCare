@@ -45,6 +45,7 @@ class PhNumberInput extends React.Component {
       const phNo = phoneCode+phoneNumber;
       getPhoneValue(phNo);
     }
+
     
     render(){
       const { getPhoneValue,t,fromPinChange } = this.props;
@@ -54,8 +55,9 @@ class PhNumberInput extends React.Component {
                <View style={{flexDirection:'row',width:'100%'}}>
                <Item style={{ borderBottomWidth: 2,flex:1,justifyContent:'center'}}>
                                <Input
-                               style={{textAlign:'center',alignItems:'center'}}
+                               style={{outlineColor: "transparent",textAlign:'center',alignItems:'center'} }
                                maxLength={5} 
+                               underlineColorAndroid="transparent"
                                keyboardType="default"
                                placeholderTextColor='#bdbdbd' 
                               //  style={{color:'black'}}
@@ -77,7 +79,7 @@ class PhNumberInput extends React.Component {
                                placeholder={t('LoginACSUserID')} 
                                keyboardType="default"
                                placeholderTextColor='#bdbdbd' 
-                               style={fromPinChange ? {color:'black',width:'10%'} : {color:'black'}} 
+                               style={fromPinChange ? {color:'black',width:'10%',outlineColor: "transparent"} : {color:'black',outlineColor: "transparent"}} 
                                onChangeText={(value)=>{
                                 this.setState({
                                   phoneNumber: value

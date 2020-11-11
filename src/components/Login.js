@@ -259,6 +259,14 @@ class Login extends React.Component {
             }
         ).start(() => { this.StartBackgroundColorAnimation() });
     }
+
+    forgotPassword = () => {
+      const { navigation } = this.props;
+      navigation.navigate('UserValidation');
+    //   navigation.navigate('ResetPassword');
+  }
+    
+    
       
     render(){
         const { image, subject, errorMessage, showPassword,language,languageSelected, callingCode, modalVisible,isPasswordVisible } = this.state;
@@ -397,7 +405,7 @@ class Login extends React.Component {
                              placeholder={t('LoginACSPwd')} 
                              placeholderTextColor='#bdbdbd' 
                              secureTextEntry={isPasswordVisible ? false : true} 
-                             style={styles.inputText} 
+                             style={{outlineColor: "transparent"}} 
                              onChangeText={props.handleChange('password')}
                              />
                              <TouchableOpacity onPress={()=>{
@@ -441,7 +449,7 @@ class Login extends React.Component {
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
               <View>
           <TouchableOpacity
-                      // onPress={() => { setTimeout(() => { this.forgotPassword() }, 0) } }
+                      onPress={() => { setTimeout(() => { this.forgotPassword() }, 0) } }
                       style={{paddingVertical: 20}}
                       >
                          {/* <Button transparent info> */}
