@@ -24,6 +24,7 @@
   "dependencies": {
     "@babel/runtime": "^7.4.5",
     "@codler/react-native-keyboard-aware-scroll-view": "^1.0.1",
+    "@expo/plist": "^0.0.10",
     "@expo/webpack-config": "^0.12.39",
     "@expo/xdl": "^56.0.0",
     "@js-joda/core": "^2.0.0",
