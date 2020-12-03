@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ezpro-app",
-    "slug": "ezpro-app",
+    "name": "shareAndcare",
+    "slug": "shareAndcare",
     "version": "2.0.0",
     "sdkVersion": "39.0.0",
     "orientation": "portrait",
@@ -17,10 +17,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.alphaclinicalsystems.ezpro"
+      "bundleIdentifier": "com.shareandcare.shareAndcare"
     },
     "android": {
-      "package": "com.alphaclinicalsystems.ezpro"
+      "package": "com.shareandcare.shareAndcare"
     },
     "web": {
       "build": {
