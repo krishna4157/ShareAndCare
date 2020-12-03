@@ -17,7 +17,6 @@ import { backgroundColor } from '../containers/NavigationScreens';
 import * as SplashScreen from 'expo-splash-screen';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
-import homePage from './homePage';
 import OfflineNotice from '../components/OfflineNotice';
 // import NetInfo from '@react-native-community/netinfo';
 import { getItem } from '../utils/secureStorageUtils';

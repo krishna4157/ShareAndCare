@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 import { FcCalendar } from "react-icons/fc";
-import './DatePicker.css';
+// import './DatePicker.css';
 
 const WebDatePicker = ({onDateChange}) => {
   const [startDate, setStartDate] = useState(new Date());

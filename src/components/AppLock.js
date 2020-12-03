@@ -26,30 +26,6 @@ class AppLock extends Component {
     }
 }
 
-  signOut = () => {
-    const { navigation } = this.props;
-    Alert.alert(
-        '',
-        'You are signing out out of ezpro. \nDo you want to continue?',
-        [
-          {
-            text: 'No',
-            onPress: () => true,
-            style: 'cancel',
-          },
-          {text: 'Yes', onPress: async() => {
-            try {
-              await removeCredentials();
-              await removeSubjectDeviceToken();
-              navigation.navigate('Login');
-            } catch(error) {
-
-            }
-          }},
-        ],
-        {cancelable: false},
-      );
-  }
 
   render() {
     const { close, closeDrawer, history, changeLoading, navigation, screenProps: { t } } = this.props;

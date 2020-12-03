@@ -1,11 +1,13 @@
 import React, { useRef, useEffect } from 'react';
-import { View, Keyboard, Image,TextInput, Text as RcText, Dimensions, StatusBar, Platform, TouchableOpacity, ActivityIndicator,Animated as NewAnimated, KeyboardAvoidingView } from 'react-native';
+import { View, Keyboard, Image,TextInput, Text as RcText, Dimensions, StatusBar, Platform, TouchableOpacity, ActivityIndicator,Animated, KeyboardAvoidingView } from 'react-native';
 import { Input, Item, Button,Text, Icon, Card, CardItem, Body } from 'native-base';
 import { createForm } from 'rc-form';
 import { MaterialIcons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { CustomPicker } from 'react-native-custom-picker';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import PhoneNumberInput from './PhoneNoInput';
+import { SocialIcon } from 'react-native-elements';
+
 import {
     BallIndicator,
     BarIndicator,
@@ -17,7 +19,7 @@ import {
     UIActivityIndicator,
     WaveIndicator,
   } from 'react-native-indicators';
-import { validateLoginDetails } from '../utils/loginUtils';
+// import { validateLoginDetails } from '../utils/loginUtils';
 import { backgroundColor } from '../containers/NavigationScreens';
 import logo from '../assets/images/butterfly.gif';
 import success from '../assets/images/success.gif';
@@ -25,25 +27,25 @@ import error from '../assets/images/error.png';
 
 import { NavigationEvents } from 'react-navigation';
 // import CustomToast from './CustomToast'; 
-// import DeviceInfo from 'react-native-device-info';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
-import { changeLanguage } from '../actions/changeLanguage';
+// import { changeLanguage } from '../actions/changeLanguage';
 import { Formik, ErrorMessage } from 'formik';
 import PhoneInput from 'react-native-phone-input';
 import CountryPicker from 'react-native-country-picker-modal';
 import * as Yup from 'yup';
-import { encrypt } from '../utils/cryptoUtil';
+// import { encrypt } from '../utils/cryptoUtil';
 import moment from 'moment';
 import { validatePhoneNumber } from '../utils/phoneNumberValidation';
-import PhoneNoInput from './PhoneNoInput';
-import PhNumberInput from './PhNumberInput';
+// import PhoneNoInput from './PhoneNoInput';
+// import PhNumberInput from './PhNumberInput';
 import axios from 'axios';
 import Colors from '../constants/Colors';
-import { Animated, StyleSheet } from 'react-native-web';
+import { StyleSheet } from 'react-native-web';
+import PhNumberInput from './PhNumberInput';
 // import { fetchBodyTemperature, fetchLatestWeight, getWeight, testData } from '../utils/healthKit/Healthkit';
 // import { saveHealthkitData } from '../actions/healthkit';
-import showToast from '../utils/toast';
+// import showToast from '../utils/toast';
 
 
 class Login extends React.Component {
@@ -53,9 +55,12 @@ class Login extends React.Component {
     this.Animation = new Animated.Value(0);
     this.state = {
       startValue: new Animated.Value(0),
+      ButtonStartValue: new Animated.Value(-180),
       moveLeftValue: new Animated.Value(0),
       moveRightValue: new Animated.Value(360),
       endValue: 30,
+      buttonEndValue: -5,
+
       endMoveValue: 300,
       duration: 3000,
       isVisible: false,
@@ -69,9 +74,13 @@ class Login extends React.Component {
     Animated.timing(this.state.startValue, {
       toValue: this.state.endValue,
       duration: this.state.duration,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
-
+    Animated.timing(this.state.ButtonStartValue, {
+      toValue: this.state.buttonEndValue,
+      duration: this.state.duration,
+      useNativeDriver: false,
+    }).start();
 
     setTimeout(() => {
       this.setState({
@@ -96,20 +105,20 @@ class Login extends React.Component {
     Animated.timing(this.state.moveLeftValue, {
       toValue: 360,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
 
     Animated.timing(this.state.moveRightValue, {
       toValue: 360,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
 
     setTimeout(() => {
       Animated.timing(this.state.moveRightValue, {
         toValue: 0,
         duration: 500,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
     
       this.setState({
@@ -117,7 +126,7 @@ class Login extends React.Component {
       })
     }, 5000);
     setTimeout(() => {
-      showToast('Login Successfully', 'success', 3000);  
+      // showToast('Login Successfully', 'success', 3000);  
     }, 6000);
     
 
@@ -142,13 +151,13 @@ class Login extends React.Component {
     Animated.timing(this.state.moveLeftValue, {
       toValue: 360,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
 
     Animated.timing(this.state.moveRightValue, {
       toValue: 360,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
 
 
@@ -156,20 +165,20 @@ class Login extends React.Component {
       Animated.timing(this.state.moveLeftValue, {
         toValue: 0,
         duration: 500,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
 
       Animated.timing(this.state.moveRightValue, {
         toValue: 360,
         duration: 500,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
     
       this.setState({
         isSuccess: 0.5
         
       })
-      showToast('Failed to login', 'danger', 3000);
+      // showToast('Failed to login', 'danger', 3000);
 
     }, 5000);
 
@@ -255,16 +264,17 @@ class Login extends React.Component {
             this.Animation,
             {
                 toValue: 1,
-                duration: 5000
+                duration: 5000,
+                useNativeDriver: false,
             }
         ).start(() => { this.StartBackgroundColorAnimation() });
     }
 
-    forgotPassword = () => {
-      const { navigation } = this.props;
-      navigation.navigate('UserValidation');
-    //   navigation.navigate('ResetPassword');
-  }
+  //   forgotPassword = () => {
+  //     // const { navigation } = this.props;
+  //     // navigation.navigate('UserValidation');
+  //   //   navigation.navigate('ResetPassword');
+  // }
     
     
       
@@ -278,7 +288,7 @@ class Login extends React.Component {
         {
             inputRange: [ 0, 0.2, 0.4, 0.8, 1 ],
             
-            outputRange: [ 'white', '#CDDC39', '#03A9F4', '#FFEB3B', 'white' ]
+            outputRange: [ 'white', '#CDDC39', '#03A9F4', '#FFEB3B', 'white' ],
 
         });
 
@@ -287,7 +297,7 @@ class Login extends React.Component {
           {
               inputRange: [ 0,0.5, 1 ],
               
-              outputRange: [ '#009688', 'green','#009688']
+              outputRange: [ '#009688', 'green','#009688'],
   
           });
 
@@ -295,7 +305,7 @@ class Login extends React.Component {
             {
                 inputRange: [ 0,0.5, 1 ],
                 
-                outputRange: [ 'white', 'red', 'white',]
+                outputRange: [ 'white', 'red', 'white',],
     
             });
 
@@ -303,187 +313,240 @@ class Login extends React.Component {
 
       return (
         <Formik
-          initialValues={{ phoneNo: '', password: '' ,
-          // language: ''
-        }}
-          validationSchema={Yup.object({
-            phoneNo: Yup.string().test("len", "Must be a valid Phone Number.", val => {
-                return validatePhoneNumber(val);
-               }).required(t('USRNAMEWARNING')),
-            password: Yup.string()
-              .required(t('PWDWARNING')),
-              // language: Yup.string()
-              // .required(t('LanguageValidate'))
-          })}
-          onSubmit={(values, formikActions) => {
-            setTimeout(() => {
-              // console.log(JSON.stringify(values));
-              if(values.password=='Asdx#123'){
-                this.getCorrectPassword();
-              } else 
-              {
-                this.getWrongPassword();
-              }
-              // Alert.alert(JSON.stringify(values));
-              //  this.onSubmit(values);
-              // Important: Make sure to setSubmitting to false so our loading indicator
-              // goes away.
-              formikActions.setSubmitting(false);
-            }, 500);
-          }}>
-          {props =>{
-             const {
-               setFieldValue,setValues
-            } = props;
-            const getPhoneValue=(value,phoneNo)=>{
-              setFieldValue(
-                    'phoneNo',value+phoneNo)
+        initialValues={{ phoneNo: '', password: '' ,
+        // language: ''
+      }}
+        validationSchema={Yup.object({
+          phoneNo: Yup.string()
+          .test("len", "Must be a valid Phone Number.", val => {
+              return validatePhoneNumber(val);
+             })
+             .required(t('USRNAMEWARNING')),
+          password: Yup.string()
+            .required(t('PWDWARNING')),
+            // language: Yup.string()
+            // .required(t('LanguageValidate'))
+        })}
+        onSubmit={(values, formikActions) => {
+          setTimeout(() => {
+            // console.log(JSON.stringify(values));
+            if(values.password=='Asdx#123'){
+              this.getCorrectPassword();
+            } else 
+            {
+              this.getWrongPassword();
             }
-          
-            return (
+            // Alert.alert(JSON.stringify(values));
+            //  this.onSubmit(values);
+            // Important: Make sure to setSubmitting to false so our loading indicator
+            // goes away.
+            formikActions.setSubmitting(false);
+          }, 500);
+        }}>
+        {props =>{
+           const {
+             setFieldValue,setValues
+          } = props;
+          const getPhoneValue=(value,phoneNo)=>{
+            setFieldValue(
+                  'phoneNo',value+phoneNo)
+          }
+        
+          return (
 
-              // <KeyboardAvoidingView>
-              <View style={{flex:1,height:'100%',justifyContent:'center'}}>
-                    <NavigationEvents
-                  //  onWillFocus={() => {
-                  //      this.resetCredentials();
-                  //    }}
-                 />
-                 <Animated.View 
-          style={{
-            flex:3,
-            borderBottomRightRadius:this.state.moveRightValue,
-            borderBottomLeftRadius:this.state.moveLeftValue,
-            backgroundColor: isSuccess == 0.5 ? FailureBackgroundColor : isSuccess ==1 ? SuccessBackgroundColor : isSuccess>1 ? 'white' :BackgroundColorConfig
-          }}>
-          {/* <View
-            style={
-              {
-                flex:1,
-                backgroundColor:'red',
-                
-            }}
-          >           */}
-          <FadeInView>
-          {/* isSuccess == 0.5 ? FailureBackgroundColor : isSuccess ==1 ? SuccessBackgroundColor : isSuccess>1 ? 'white' :BackgroundColorConfig */}
-         <Image
-      source={logo}
-      style={{height:150,width:150,alignSelf:'center',overflow:'hidden'}}
-    />
-            <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>Share And Care</Text>
-          </FadeInView>
-        {/* </View> */}
-        </Animated.View>
-        <Animated.View style={{flex:3,
-        padding:10
-        ,transform: [
-                  {
-                    translateY: this.state.startValue,
-                    
-                  },
-                ],}}>
-               {isVisible && <FadeInView>
-                 <View>
-                      <PhNumberInput 
-                      deviceLocation={deviceLocation}
-                      callingCode={callingCode}
-                       t={t} getPhoneValue={getPhoneValue}  />
-                            {/* <Text>{props.values.phoneNo}</Text> */}
-              {props.touched.phoneNo && props.errors.phoneNo ? (
-                <Text style={[styles.error,{paddingLeft:10}]} >{props.errors.phoneNo}</Text>
-              ) : null}
-              </View>
+            // <KeyboardAvoidingView>
+            <View style={{flex:1,height:'100%',justifyContent:'center'}}>
+                  <NavigationEvents
+                //  onWillFocus={() => {
+                //      this.resetCredentials();
+                //    }}
+               />
+               <Animated.View 
+        style={{
+          flex:3,
+          borderBottomRightRadius:this.state.moveRightValue,
+          borderBottomLeftRadius:this.state.moveLeftValue,
+          backgroundColor: isSuccess == 0.5 ? FailureBackgroundColor : isSuccess ==1 ? SuccessBackgroundColor : isSuccess>1 ? 'white' :BackgroundColorConfig
+        }}>
+        {/* <View
+          style={
+            {
+              flex:1,
+              backgroundColor:'red',
               
-              {/* </View> */}
-              <View style={{padding:10}}>
-              <Item style={[styles.inputStyle]}>
-                             <MaterialIcons name='lock-outline' size={20} color="#bdbdbd" style={styles.icon} />
-                             <Input 
-                             keyboardType="default"
-                             value = {props.values.password}
-                            //  value={subject.password} 
-                             placeholder={t('LoginACSPwd')} 
-                             placeholderTextColor='#bdbdbd' 
-                             secureTextEntry={isPasswordVisible ? false : true} 
-                             style={{outlineColor: "transparent"}} 
-                             onChangeText={props.handleChange('password')}
-                             />
-                             <TouchableOpacity onPress={()=>{
-                               this.setState({
-                                 isPasswordVisible:!this.state.isPasswordVisible
-                               })
-                             }}>
-                             {this.state.isPasswordVisible ? 
-                             <MaterialIcons name='visibility' size={20} color="#bdbdbd" style={styles.icon} /> : 
-                             <MaterialIcons name='visibility-off' size={20} color="#bdbdbd" style={styles.icon} /> 
-                             }
-                             </TouchableOpacity>
-         {/* { Platform.OS !=='ios' ? <MaterialCommunityIcons name={showPassword ? "eye-off" : "eye"} size={25} color="#bdbdbd" style={{ marginRight: 10 }} onPress={() => this.showPassword()}/> : <View/> } */}
-                         </Item>
-              {props.touched.password && props.errors.password ? (
-                <Text style={styles.error} >{props.errors.password}</Text>
-              ) : null}
-              </View>
-              {/* <View style={{padding:10}}>
-                        <TouchableOpacity
-                         onPress={() => {
-                          navigation.navigate('ChangeLanguage', {fromLogin: true,selectLanguage:this.selectLanguage.bind(this)})
-                        }} style={{ position: 'absolute', marginTop: Platform.OS != 'web' ? 30 : 10,padding:Platform.OS != 'web' ? 0 : 10, zIndex: 3, height: 40, width: '100%'}}></TouchableOpacity>
-                      <Item style={[styles.inputStyle]}>
-                        <MaterialIcons name="translate" size={20} color={"#C0C0C0"} style={styles.icon}/>
-                        <Input
-                            disabled
-                            onChangeText={this.onchangeLangauge(props)}      
-                            onBlur={props.handleBlur('language')}
-                            style={styles.inputText}
-                            value={props.values.language}
-                            placeholder={t('Actn_sheetChange_Language')}
-                            placeholderTextColor='#bdbdbd'
-                            // keyboardType="default"  
-                        />
-                      </Item>
-              {props.touched.language && props.errors.language && props.values.language=='' ? (
-                <Text style={styles.error} >{props.errors.language}</Text>
-              ) : null}
-              </View> */}
-              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <View>
-          <TouchableOpacity
-                      onPress={() => { setTimeout(() => { this.forgotPassword() }, 0) } }
-                      style={{paddingVertical: 20}}
-                      >
-                         {/* <Button transparent info> */}
-                             <RcText style={[styles.buttonText, {color: backgroundColor}]}>{t('LoginACSFrgtPwd')}</RcText>
-                         {/* </Button> */}
-                     </TouchableOpacity>
-                  </View>
-              <Button
-                style={{justifyContent:'flex-end',padding:10,borderRadius:10,backgroundColor:backgroundColor}}
-                // onPress={() => { setTimeout(() => { this.onSubmit() }, 0) }}
-                // onPress={props.handleSubmit}
-              onPress={props.handleSubmit}
-                // onLongPress={() => { 
-                //   // testData();
-                //   // getWeight();
-                //   this.setState({
-                //     loading: true
-                //   })
-                //   // saveHealthkitData();
-                // }}
-                // loading={props.isSubmitting}
-                // disabled={props.isSubmitting}
-                >
-              <Text style={{ color: 'white' }}>{t('LoginACSLogin')}</Text>
-              {/* <MaterialIcons style={{ paddingRight: 10}} name='arrow-forward' size={25} color="#fff"/> */}
+          }}
+        >           */}
+        <FadeInView>
+        {/* isSuccess == 0.5 ? FailureBackgroundColor : isSuccess ==1 ? SuccessBackgroundColor : isSuccess>1 ? 'white' :BackgroundColorConfig */}
+       <Image
+    source={logo}
+    style={{height:150,width:150,alignSelf:'center',overflow:'hidden'}}
+  />
+          <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>Share And Care</Text>
+        </FadeInView>
+      {/* </View> */}
+      </Animated.View>
+      <Animated.View style={{flex:3,
+      padding:10
+      ,transform: [
+                {
+                  translateY: this.state.startValue,
+                  
+                },
+              ],}}>
+             {isVisible && <FadeInView>
+               <View>
+                    <PhNumberInput 
+                    // deviceLocation={deviceLocation}
+                    callingCode={callingCode}
+                     t={t} getPhoneValue={getPhoneValue}  />
+                          {/* <Text>{props.values.phoneNo}</Text> */}
+            {props.touched.phoneNo && props.errors.phoneNo ? (
+              <Text 
+              style={{color: 'red',
+              fontSize: 10,paddingLeft:10,marginTop:-10}}
+               >{props.errors.phoneNo}</Text>
+            ) : null}
+            </View>
+            
+            {/* </View> */}
+            <View style={{padding:10}}>
+            <Item style={[styles.inputStyle]}>
+                           <MaterialIcons name='lock-outline' size={20} color="#bdbdbd" style={styles.icon} />
+                           <Input 
+                           keyboardType="default"
+                           value = {props.values.password}
+                          //  value={subject.password} 
+                           placeholder={t('LoginACSPwd')} 
+                           placeholderTextColor='#bdbdbd' 
+                           secureTextEntry={isPasswordVisible ? false : true} 
+                           style={{outlineWidth: 0}} 
+                           onChangeText={props.handleChange('password')}
+                           />
+                           <TouchableOpacity onPress={()=>{
+                             this.setState({
+                               isPasswordVisible:!this.state.isPasswordVisible
+                             })
+                           }}>
+                           {this.state.isPasswordVisible ? 
+                           <MaterialIcons name='visibility' size={20} color="#bdbdbd" style={styles.icon} /> : 
+                           <MaterialIcons name='visibility-off' size={20} color="#bdbdbd" style={styles.icon} /> 
+                           }
+                           </TouchableOpacity>
+       {/* { Platform.OS !=='ios' ? <MaterialCommunityIcons name={showPassword ? "eye-off" : "eye"} size={25} color="#bdbdbd" style={{ marginRight: 10 }} onPress={() => this.showPassword()}/> : <View/> } */}
+                       </Item>
+            {props.touched.password && props.errors.password ? (
+              <Text  style={{color: 'red',
+              fontSize: 10}} >{props.errors.password}</Text>
+            ) : null}
+            <TouchableOpacity
+                    onPress={() => { setTimeout(() => { this.forgotPassword() }, 0) } }
+                    style={{marginTop: 15}}
+                    >
+                       {/* <Button transparent info> */}
+                           <RcText style={[styles.buttonText, {color: backgroundColor,fontSize:10}]}>{t('LoginACSFrgtPwd')}</RcText>
+                       {/* </Button> */}
+                   </TouchableOpacity>
+            </View>
+            {/* <View style={{padding:10}}>
+                      <TouchableOpacity
+                       onPress={() => {
+                        navigation.navigate('ChangeLanguage', {fromLogin: true,selectLanguage:this.selectLanguage.bind(this)})
+                      }} style={{ position: 'absolute', marginTop: Platform.OS != 'web' ? 30 : 10,padding:Platform.OS != 'web' ? 0 : 10, zIndex: 3, height: 40, width: '100%'}}></TouchableOpacity>
+                    <Item style={[styles.inputStyle]}>
+                      <MaterialIcons name="translate" size={20} color={"#C0C0C0"} style={styles.icon}/>
+                      <Input
+                          disabled
+                          onChangeText={this.onchangeLangauge(props)}      
+                          onBlur={props.handleBlur('language')}
+                          style={styles.inputText}
+                          value={props.values.language}
+                          placeholder={t('Actn_sheetChange_Language')}
+                          placeholderTextColor='#bdbdbd'
+                          // keyboardType="default"  
+                      />
+                    </Item>
+            {props.touched.language && props.errors.language && props.values.language=='' ? (
+              <Text style={styles.error} >{props.errors.language}</Text>
+            ) : null}
+            </View> */}
+            {/* <View style={{padding:10,marginTop:30,marginLeft:30,flexDirection:'row',justifyContent:'space-between'}}>
+          
+             <Button
+style={{zIndex:10,position:'absolute',padding:10,height:35,borderRadius:30,marginLeft:250,backgroundColor:backgroundColor}}
+             
+            onPress={props.handleSubmit}
+            
+              >
+            <Text style={{ color: 'white',fontSize:10 }}>       {t('LoginACSLogin')}        </Text>
+          
+            </Button>
+         
+           
+           
+            <Animated.View style={{position:'absolute',marginTop:10,width:'100%',justifyContent:'space-between',flexDirection:'row',transform: [
+                {
+                  translateX: this.state.ButtonStartValue,
+                  
+                },
+              ]}}>
+<Button style={{padding:10,height:35,borderRadius:30,marginLeft:-30,backgroundColor:'orange'}}>
+<Text style={{fontSize:10}}>          New User ? </Text>
+</Button>
+<View style={{marginTop:50}}>
+<Text style={{justifyContent:'center',alignSelf:'center',fontSize:10}}>OR</Text>
+            
+</View>
+</Animated.View>
+            </View> */}
+            <View style={{flexDirection:'column',marginTop:10}}>
+            <View style={{marginLeft:-30,marginBottom:10,width:'120%',flexDirection:'row',justifyContent:'space-between',}}>
+            <Animated.View style={{transform: [
+                {
+                  translateX: this.state.ButtonStartValue,
+                  
+                },
+              ]}}>
+            <Button
+            onPress={()=>{
+              navigation.replace('CreateAccount');
+            }}
+            style={{borderRadius:30,backgroundColor:'orange'}}
+            >
+              <Text>        New User ?</Text>
+              </Button>
+              </Animated.View>
+            <Button
+            onPress={props.handleSubmit}
+            style={{borderRadius:30}}
+            >
+              <Text>      LOGIN                 </Text>
               </Button>
               </View>
-              </FadeInView>}
-              </Animated.View>
-              </View>
-              // </KeyboardAvoidingView>
-          )}}
-        </Formik>
-                    );
+              
+              <Text style={{justifyContent:'center',textAlign:'center'}}>OR</Text>
+              <SocialIcon
+            button          
+            title='Sign In With Facebook'
+            iconSize={15}
+            type='facebook'
+            />
+            <SocialIcon
+            iconSize={15}
+            title={"Sign In With Google"}
+            button={true}
+            type={"google"}
+            />
+            </View>
+            </FadeInView>}
+            </Animated.View>
+            
+
+            </View>
+            // </KeyboardAvoidingView>
+        )}}
+      </Formik>
+                  );
 
     }
 }
@@ -498,9 +561,12 @@ const styles = StyleSheet.create({
       paddingTop: 10,
   },
   error: {
-    color: 'red'
+    color: 'red',
+    fontSize: 10,
   },
-
+  left : {
+    paddingLeft:10
+  },
   text: {
       fontSize: 15, lineHeight: 23, padding: 10
   },
@@ -533,4 +599,4 @@ const FadeInView = (props) => {
   );
 }
 
-export default createForm()(Login);
+export default Login;

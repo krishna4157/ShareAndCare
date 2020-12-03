@@ -11,6 +11,7 @@ function MiniOfflineSign({isConnected,isInternetReachable,t}) {
     <View style={{backgroundColor: isConnected ==true && isInternetReachable ==true ?'#66bb6a':'#ef5350',
     // height: 30,
     padding:5,
+    marginTop:30,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',

@@ -22,7 +22,7 @@ export const buildFields = (fieldList, form, t, subjectTimezone) => {
   return fields;
 }
 
-export const createFieldsToSubmit = (subjectVisitId,fieldValues, fieldsList, selectedSvf, navigatedOrdinals) => {
+export const createFieldsToSubmit = (subjectVisitId,fieldValues, fieldsList, selectedSvf, navigatedOrdinals, subjectTimezone) => {
   const crfData = [];
   fieldsList.forEach(field => {
     if(_.includes(navigatedOrdinals, field.ordinal) || fieldsList.length === 1) {
@@ -53,7 +53,7 @@ export const createFieldsToSubmit = (subjectVisitId,fieldValues, fieldsList, sel
     subjectVisit:{
       id:subjectVisitId
     },
-    originatingTimezone: moment.tz.guess(true),
+    originatingTimezone: subjectTimezone || moment.tz.guess(true),
     visitFormOid: selectedSvf.visitFormOid,
     scheduleDate: moment(new Date(selectedSvf.scheduleDate)),
     completedDateTime:moment(new Date()).format(),

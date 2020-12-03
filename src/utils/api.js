@@ -5,7 +5,7 @@ import { retrieveSubjectDeviceToken } from './secureStorageUtils';
 
 
 const axiosConfig = axios.create({
-  baseURL: 'https://eprout1.acs-eclinical.com/ezpro-test/api/app',
+  baseURL: 'http://192.168.2.67:8082/api/app',
   headers: { 'Access-Control-Allow-Origin': '*' },
   // auth: {
   //   username: '+19999996116',
@@ -34,5 +34,4 @@ const getConfig = async (config) => {
   }
   return config;
 }
-
 export default axiosConfig;

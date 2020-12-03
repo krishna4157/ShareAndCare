@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Dimensions } from 'react-native';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 // import { FcCalendar } from "react-icons/fc";
-import './WebDateInput.css';
+// import './WebDateInput.css';
 import momentTz from 'moment-timezone';
 
 const WebDateInput = ({onDateChange, date, format, showTimeInput, timeFormat, 

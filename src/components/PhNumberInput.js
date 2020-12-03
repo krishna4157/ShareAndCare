@@ -24,7 +24,7 @@ class PhNumberInput extends React.Component {
 
   componentDidMount() {
     const { callingCode, deviceLocation } = this.props;
-    const phoneCode = Platform.OS === 'web' ? callingCode : deviceLocation.location.calling_code || '1';
+    const phoneCode = Platform.OS === 'web' ? callingCode : '91';
     this.setState({
       phoneCode,
     })
@@ -46,6 +46,10 @@ class PhNumberInput extends React.Component {
       getPhoneValue(phNo);
     }
 
+    replaceText = (value) => {
+      var changeToNumeric = value.replace(/[^0-9]/g, '');
+      return changeToNumeric;
+    }
     
     render(){
       const { getPhoneValue,t,fromPinChange } = this.props;
@@ -55,18 +59,16 @@ class PhNumberInput extends React.Component {
                <View style={{flexDirection:'row',width:'100%'}}>
                <Item style={{ borderBottomWidth: 2,flex:1,justifyContent:'center'}}>
                                <Input
-                               style={{outlineColor: "transparent",textAlign:'center',alignItems:'center'} }
+                               style={{textAlign:'center',alignItems:'center',outlineWidth: 0}}
                                maxLength={5} 
-                               underlineColorAndroid="transparent"
                                keyboardType="default"
                                placeholderTextColor='#bdbdbd' 
-                              //  style={{color:'black'}}
                                value={phoneCode}
                                onChangeText={(value)=>{
                                  this.setState({
-                                   phoneCode: value
+                                   phoneCode: this.replaceText(value),
                                  });
-                                 getPhoneValue(value,phoneNumber);
+                                 getPhoneValue(this.replaceText(value),phoneNumber);
                                }} 
                                />
                            </Item>
@@ -75,16 +77,17 @@ class PhNumberInput extends React.Component {
                            </View>
                            <Item style={{ borderBottomWidth: 1,flex:5}}>
                                <Input
+                               value={phoneNumber}
                                maxLength={10}
                                placeholder={t('LoginACSUserID')} 
                                keyboardType="default"
                                placeholderTextColor='#bdbdbd' 
-                               style={fromPinChange ? {color:'black',width:'10%',outlineColor: "transparent"} : {color:'black',outlineColor: "transparent"}} 
+                               style={fromPinChange ? {color:'black',width:'10%',outlineWidth: 0} : {color:'black',outlineWidth: 0}} 
                                onChangeText={(value)=>{
                                 this.setState({
-                                  phoneNumber: value
+                                  phoneNumber: this.replaceText(value),
                                 });
-                                getPhoneValue(phoneCode,value);
+                                getPhoneValue(phoneCode,this.replaceText(value));
                               }} 
                                />
                            </Item>

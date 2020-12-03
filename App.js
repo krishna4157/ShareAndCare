@@ -9,13 +9,13 @@ export default function App() {
   if(Platform.OS=='web'){  
   return (
     <View style={SCREEN_WIDTH >= 1030 ? {flex:1, alignItems:'center', backgroundColor:'#b0bec5', overflow:'hidden' }: {flex:1}}>
-    <View style={Platform.OS == 'web' ? { width: SCREEN_WIDTH >= 1030 ? '30%': '100%', height: '99%', }:{flex:1}}>
+    <View style={Platform.OS == 'web' ? { width: SCREEN_WIDTH >= 1030 ? 480: '100%', height: '99%', }:{flex:1}}>
       <Application />
     </View>
     </View>
     );
   } else {
-      return (<View />);
+      return (<Application />);
   }
   }
 

@@ -5,7 +5,7 @@ import { generateBasicAuthToken } from '../utils/util';
 import { retrieveTimeZonesList } from '../actions/timeZone';
 import { setSubjectCredentials, setSubjectDeviceToken } from '../utils/secureStorageUtils';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getUniqueId } from 'react-native-device-info';
+// import { getUniqueId } from 'react-native-device-info';
 import Constants from 'expo-constants';
 // import { getUniqueId, getManufacturer,getModel,getVersion } from 'react-native-device-info';
 import { Platform } from 'react-native';
@@ -55,7 +55,7 @@ export const retrieveLogin = (subject, navigation, locale, deviceToken, hasPinSe
     mobileInfo :{
       systemVersion: obj.systemVersion,
       os: obj.os,
-      deviceId: Platform.OS !== 'web' ? getUniqueId() : uuid(),
+      // deviceId: Platform.OS !== 'web' ? getUniqueId() : uuid(),
     }
   }  
   dispatch(retrieveLoginRequest());

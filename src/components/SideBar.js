@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { MaterialIcons,Entypo, MaterialCommunityIcons,Feather, FontAwesome } from '@expo/vector-icons';
 import { Container, Header, View, Button, Title, Content, List, ListItem, Icon, Left, Body, Right, Switch } from 'native-base';
-import { Text, StyleSheet, StatusBar, BackHandler, Alert,Platform } from 'react-native'
+import { Text, StyleSheet, StatusBar, BackHandler, Alert,Platform, Dimensions } from 'react-native'
 import { removeCredentials, removeSubjectDeviceToken } from '../utils/secureStorageUtils';
 import { NavigationEvents } from 'react-navigation';
 import styles from './sideBar/styles';
@@ -11,12 +11,16 @@ import api from '../utils/api';
 import {generateBasicAuthToken} from '../utils/util';
 import {deviceConfig} from '../utils/deviceConfig';
 import { retrieveHealthkitData } from '../actions/healthkit';
-
+import WebModal from 'modal-react-native-web';
+const {width:SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window')
+import WebAlert from '../utils/WebAlert';
 import Constants from 'expo-constants';
 
 
 class Sidebar extends Component {
-  state = {};
+  state = {
+    isModalVisible : false
+  };
 
   static navigationOptions = ({ navigation, screenProps: { t }  }) => ({
     title: navigation.state.params ? navigation.state.params.title : t('Actn_sheetMore'),
@@ -33,10 +37,37 @@ class Sidebar extends Component {
     }
 }
 
+logoutAction = async() => {
+  const { navigation, screenProps: { t } ,clientID,subject } = this.props;
+
+  try {
+    // api.defaults.headers.common.Authorization = generateBasicAuthToken(subject.phoneNo, subject.password);
+    // api.defaults.headers.common['Accept-Language'] = locale;
+    const obj = deviceConfig();
+    const data = {
+      subject : { 
+        studySite: {client:{id:clientID}},
+        phoneNo : subject.phoneNo
+      },
+      mobileInfo :{
+        systemVersion: obj.systemVersion,
+        os: obj.os
+      }
+    } 
+    await api.post('/subject/logout/app', data);
+    await removeCredentials();
+    await removeSubjectDeviceToken();
+    navigation.navigate('Login');
+  } catch(error) {
+    console.log(error);
+  }
+}
 
 
   signOut = () => {
     const { navigation, screenProps: { t } ,clientID,subject } = this.props;
+    
+    if(Platform.OS!='web'){
     Alert.alert(
         '',
         t('LogoutMessage'),
@@ -72,10 +103,22 @@ class Sidebar extends Component {
         ],
         {cancelable: false},
       );
+    } else {
+      this.setState({
+        isModalVisible: true
+      })
+    }
+  }
+
+  hideModal = () => {
+    this.setState({
+      isModalVisible: false
+    })
   }
 
   render() {
-    const { clientID,close, closeDrawer, history, changeLoading,isDeviceOnline, navigation, screenProps: { t }, retrieveHealthkitData, subject } = this.props;
+    const { clientID,close,screenProps, closeDrawer, history, changeLoading,isDeviceOnline, navigation, screenProps: { t }, retrieveHealthkitData, subject } = this.props;
+    const  { isModalVisible} = this.state;
     return (
       <Container>
       {/* <NavigationEvents
@@ -200,7 +243,9 @@ class Sidebar extends Component {
 
             {/* Logout */}
 
-         {isDeviceOnline==true &&    <ListItem button style={{ height: 60 }} icon onPress={() => { setTimeout(() => { this.signOut(); }, 0) }}>
+         {isDeviceOnline==true &&    <ListItem button style={{ height: 60 }} icon onPress={() => { setTimeout(() => { 
+           this.signOut();
+           }, 0) }}>
               <View style={styles.listItem}>
                 <View style={styles.iconContainer}>
                   <MaterialCommunityIcons name="logout" size={24} />
@@ -212,6 +257,9 @@ class Sidebar extends Component {
             </ListItem>}
           </List>
         </Content>
+        {isModalVisible && Platform.OS=='web' &&
+        <WebAlert headerText={''} hideModal={this.hideModal} t={screenProps.t} action={this.logoutAction} message={t('LogoutMessage')} />
+        }
       </Container>
     );
   }

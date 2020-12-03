@@ -72,7 +72,7 @@ export const retrieveSvfsForASubject = (subject, locale) => async dispatch => {
         const res = await api.get(`/subjectVisitForm/subject/${subject.id}`);
         dispatch(retrieveSvfsForASubjectSuccess(res));
     } catch(error) {
-        showToast (localeStore.FailedRetrieve, 'danger', 3000);
+        // showToast (t('FailedRetrieve'), 'danger', 3000);
         dispatch(retrieveSvfsForASubjectFailure(error));
         console.log(error)
     }
@@ -102,7 +102,7 @@ export const retrieveAllSvfsForASubject = (subject, locale) => async dispatch =>
         const res = await api.get(`/subjectVisitForm/subject/${subject.id}`);
         dispatch(retrieveAllSvfsForASubjectSuccess(res));
     } catch(error) {
-        showToast (localeStore.FailedRetrieve, 'danger', 3000);
+        // showToast (t('FailedRetrieve'), 'danger', 3000);
         dispatch(retrieveAllSvfsForASubjectFailure(error));
         console.log(error)
     }
@@ -132,7 +132,7 @@ export const retrieveSingleSvf = (id, subject) => async dispatch => {
         const res = await api.get(`/subjectVisitForm/${id}`);
         dispatch(retrieveSingleSvfSuccess(res));
     } catch(error) {
-        showToast (localeStore.FailedRetrieve, 'danger', 3000);
+        // showToast (t('FailedRetrieve'), 'danger', 3000);
         dispatch(retrieveSingleSvfFailure(error));
         console.log(error)
     }

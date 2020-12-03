@@ -26,8 +26,9 @@ class UserValidation extends React.Component {
   }
 
   componentDidMount() {
-    const { deviceLocation } = this.props
-    const callingCode = deviceLocation.location.calling_code || '1';
+    // const { deviceLocation } = this.props
+    const callingCode = '1'
+    // deviceLocation.location.calling_code || ;
     this.changeCallCode(callingCode);
   }
 
@@ -62,7 +63,7 @@ class UserValidation extends React.Component {
     try {
       this.changeLoading ();
       const res = await api.post ('/subject/otp', {phoneNumber});
-      alert(JSON.stringify(res));
+      // alert(JSON.stringify(res));
       const transactionId = res.data.transactionId;
       const otpData = {
         phoneNumber,
@@ -127,9 +128,9 @@ changeCallCode =(callCode)=>{
 }
 
   render () {
-    const {form: {getFieldDecorator, getFieldError},navigation, screenProps: { t }, deviceLocation} = this.props;
+    const {form: {getFieldDecorator, getFieldError},navigation, screenProps: { t }, } = this.props;
     const { callingCode,loading} = this.state;
-    const countryCode = deviceLocation.country_code ? deviceLocation.country_code.toLowerCase() : 'us'
+    const countryCode =  'us'
 
     return (
       <View
