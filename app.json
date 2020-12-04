@@ -2,7 +2,7 @@
   "expo": {
     "name": "shareAndcare",
     "slug": "shareAndcare",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "sdkVersion": "39.0.0",
     "orientation": "portrait",
     "icon": "./images/icon.png",
