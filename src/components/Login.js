@@ -45,7 +45,7 @@ import { StyleSheet } from 'react-native-web';
 import PhNumberInput from './PhNumberInput';
 // import { fetchBodyTemperature, fetchLatestWeight, getWeight, testData } from '../utils/healthKit/Healthkit';
 // import { saveHealthkitData } from '../actions/healthkit';
-// import showToast from '../utils/toast';
+import showToast from '../utils/toast';
 
 
 class Login extends React.Component {
@@ -126,7 +126,7 @@ class Login extends React.Component {
       })
     }, 5000);
     setTimeout(() => {
-      // showToast('Login Successfully', 'success', 3000);  
+      showToast('Login Successfully', 'success', 3000);  
     }, 6000);
     
 
@@ -178,7 +178,7 @@ class Login extends React.Component {
         isSuccess: 0.5
         
       })
-      // showToast('Failed to login', 'danger', 3000);
+      showToast('Failed to login', 'danger', 3000);
 
     }, 5000);
 
@@ -355,7 +355,7 @@ class Login extends React.Component {
           return (
 
             // <KeyboardAvoidingView>
-            <View style={{flex:1,height:'100%',justifyContent:'center'}}>
+            <View style={{flex:1,height:'100%'}}>
                   <NavigationEvents
                 //  onWillFocus={() => {
                 //      this.resetCredentials();
@@ -525,12 +525,7 @@ style={{zIndex:10,position:'absolute',padding:10,height:35,borderRadius:30,margi
               </View>
               
               <Text style={{justifyContent:'center',textAlign:'center'}}>OR</Text>
-              <SocialIcon
-            button          
-            title='Sign In With Facebook'
-            iconSize={15}
-            type='facebook'
-            />
+              
             <SocialIcon
             iconSize={15}
             title={"Sign In With Google"}
