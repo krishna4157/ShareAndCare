@@ -19,6 +19,8 @@ import InitialScreen from '../containers/initialScreen';
 // import PhoneDataPage from './phoneDataPage';
 
 import appConstants from '../constants/appConstants';
+import DataScreenPage from './DataScreenPage';
+import Introduction from './IntroductionPages';
 
 const isWeb = Platform.OS === 'web';
 
@@ -30,6 +32,8 @@ const AuthStack = createStackNavigator({
     InitialScreen: InitialScreen,
     Login : Login,
     CreateAccount : CreateAccount,
+    Introduction : Introduction,
+    NextScreenWithData : DataScreenPage,
     // ChangeLanguage: ChangeLanguage,
     // ChangeTimeZone: ChangeTimeZone,
     // SubjectTimeZone: SubjectTimeZone,

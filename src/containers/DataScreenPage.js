@@ -8,47 +8,46 @@ import {localeStore} from '../utils/localization/localizationUtils';
 import {setCurrentScreen} from '../actions/storeAppStatus';
 // import { setupInitialHealthKit, getWeight } from '../utils/healthKit/Healthkit';
 import { Platform } from "react-native";
-class LoginScreen extends Component {
+import DataScreen from "../components/DataScreen";
+class DataScreenPage extends Component {
     state={
         deviceToken: '',
     };
 
-    componentDidMount(){
-        const {setCurrentScreen}=this.props;
+    // componentDidMount(){
+    //     const {setCurrentScreen}=this.props;
 
-        setCurrentScreen("LOGIN");
-        // if(Platform.OS === 'ios') {
-        //     setupInitialHealthKit();
-        //   }
-    }
+    //     setCurrentScreen("LOGIN");
+    //     // if(Platform.OS === 'ios') {
+    //     //     setupInitialHealthKit();
+    //     //   }
+    // }
     
-    async componentDidMount() {
+    // async componentDidMount() {
         
-        // try {
-        //     const deviceToken = await getDeviceToken();
-        //     this.setState({
-        //         deviceToken,
-        //     })
-        // } catch(error) {
-        //     console.log(error)
-        // }
-    }
+    //     // try {
+    //     //     const deviceToken = await getDeviceToken();
+    //     //     this.setState({
+    //     //         deviceToken,
+    //     //     })
+    //     // } catch(error) {
+    //     //     console.log(error)
+    //     // }
+    // }
 
     render() {
-        const { currentScreen,navigation, retrieveLogin: reqLogin, selectedLanguage, loading, screenProps,setCurrentScreen, deviceLocation } = this.props;
+        const { navigation, } = this.props;
         const { deviceToken } = this.state;
-        console.log(screenProps)
+        const text = navigation.getParam("BackendData");
         return (
-            <Login
-            currentScreen={currentScreen}
-             navigation={navigation}
-           
-            screenProps={screenProps}
-            deviceLocation={deviceLocation}
+            <DataScreen
+                text={text}
             />
         );
     }
 }
+
+
 
 const mapStateToProps = state => ({
       selectedLanguage: state.changeLanguage.selectedLanguage,
@@ -65,4 +64,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(DataScreenPage);

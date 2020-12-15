@@ -46,6 +46,7 @@ import PhNumberInput from './PhNumberInput';
 // import { fetchBodyTemperature, fetchLatestWeight, getWeight, testData } from '../utils/healthKit/Healthkit';
 // import { saveHealthkitData } from '../actions/healthkit';
 import showToast from '../utils/toast';
+import api from '../utils/api';
 
 
 class Login extends React.Component {
@@ -71,6 +72,7 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
+    
     Animated.timing(this.state.startValue, {
       toValue: this.state.endValue,
       duration: this.state.duration,
@@ -90,7 +92,9 @@ class Login extends React.Component {
   }
 
 
-  getCorrectPassword = () => {
+  getCorrectPassword = async(data) => {
+    const {navigation}= this.props;
+    try {
     this.setState({
       statusColor: 'blue'
     });
@@ -127,13 +131,18 @@ class Login extends React.Component {
     }, 5000);
     setTimeout(() => {
       showToast('Login Successfully', 'success', 3000);  
+      // navigation.navigate("NextScreenWithData",{'BackendData' : data})
+      // Introduction
+      navigation.navigate("Introduction");
     }, 6000);
-    
+  } catch(e){
+    this.getWrongPassword()
+  }
 
   }
 
 
-  getWrongPassword = () => {
+  getWrongPassword = (e) => {
     this.setState({
       statusColor: 'blue'
     });
@@ -178,7 +187,7 @@ class Login extends React.Component {
         isSuccess: 0.5
         
       })
-      showToast('Failed to login', 'danger', 3000);
+      showToast(JSON.stringify(e), 'danger', 3000);
 
     }, 5000);
 
@@ -276,11 +285,26 @@ class Login extends React.Component {
   //   //   navigation.navigate('ResetPassword');
   // }
     
+  checkValues = async (values) => {
+   try {
+      const user  = {
+        phoneNo : values.phoneNo,
+        loginPassword: values.password 
+      };
+      const res = await api.post("/login",user);
+      console.log(res.data);
+      this.getCorrectPassword(res.data);
+    
+    } catch(e) {
+      console.log(e);
+      this.getWrongPassword(e);
+    }
+  }
     
       
     render(){
         const { image, subject, errorMessage, showPassword,language,languageSelected, callingCode, modalVisible,isPasswordVisible } = this.state;
-        const { loading, navigation, screenProps,currentScreen, deviceLocation } = this.props;
+        const {  navigation, screenProps, deviceLocation } = this.props;
         const { t } = screenProps;
         const  { isVisible,statusColor,isSuccess } =this.state;
       // alert(callingCode);
@@ -330,12 +354,14 @@ class Login extends React.Component {
         onSubmit={(values, formikActions) => {
           setTimeout(() => {
             // console.log(JSON.stringify(values));
-            if(values.password=='Asdx#123'){
-              this.getCorrectPassword();
-            } else 
-            {
-              this.getWrongPassword();
-            }
+            // if(values.password=='Asdx#123'){
+              
+            //   this.getCorrectPassword(values);
+            // } else 
+            // {
+            //   this.getWrongPassword();
+            // }
+            this.checkValues(values);
             // Alert.alert(JSON.stringify(values));
             //  this.onSubmit(values);
             // Important: Make sure to setSubmitting to false so our loading indicator

@@ -20,7 +20,11 @@
       "bundleIdentifier": "com.shareandcare.shareAndcare"
     },
     "android": {
-      "package": "com.shareandcare.shareAndcare"
+      "package": "com.shareandcare.shareAndcare",
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+        ]
     },
     "web": {
       "build": {
