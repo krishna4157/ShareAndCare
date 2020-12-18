@@ -373,12 +373,12 @@ class CreateAccoount extends React.Component {
           backgroundColor: isSuccess == 0.5 ? FailureBackgroundColor : isSuccess ==1 ? SuccessBackgroundColor : isSuccess>1 ? 'white' :BackgroundColorConfig
         }}>
           <Button style={{marginTop:40,borderTopRightRadius:30,borderBottomRightRadius:30,backgroundColor:'#c90400'}} onPress={()=>{
-                   navigation.navigate('Login');
+                   navigation.goBack();
                }}>
                    <Text>     Back        </Text>
                    </Button>
                    <View style={{marginTop:15}}>
-                   <Text style={{justifyContent:'center',textAlign:'center',fontSize:25}}>Registration</Text>
+                   <Text style={{justifyContent:'center',textAlign:'center',fontSize:25,fontFamily:'Winterland'}}>Registration</Text>
                     </View>
 
           </Animated.View>

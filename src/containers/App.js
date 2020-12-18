@@ -67,6 +67,10 @@ class App extends Component {
           WorkSansThin: require('../../assets/Work_Sans/WorkSans-Thin.ttf'),
           WorkSansLight: require('../../assets/Work_Sans/WorkSans-Light.ttf'),
           WorkSansExtraLight: require('../../assets/Work_Sans/WorkSans-ExtraLight.ttf'),
+          ChristmasFont : require('../../assets/MerryChristmasFlake.ttf'),
+          ChristmasStar : require('../../assets/MerryChristmasStar.ttf'),
+          BabyLovely : require('../../assets/BabyLovely.ttf'),
+          Winterland : require('../../assets/Winterland.ttf'),
         });
       } catch(error) {
         // alert('App is readyyy errrrooorrr');
@@ -110,7 +114,7 @@ class App extends Component {
       <Provider  store={store}>
       <PersistGate loading={null} persistor={persistor}>
       {/* <SafeAreaProvider> */}
-        {Platform.OS === 'ios' ? <SafeAreaView style={{ flex: 1}}>
+        {Platform.OS === 'ios' ? <SafeAreaView style={{ flex: 1,marginTop:50}}>
           {/* {disappear ==false && <OfflineNotice isInternetReachable={isInternetReachable} isConnected={this.state.isConnected} />} */}
             {!loading ? 
            
@@ -129,8 +133,7 @@ class App extends Component {
                 
       // {disappear ==false && <OfflineNotice isInternetReachable={isInternetReachable} isConnected={this.state.isConnected} />} 
           !loading ? 
-          
-          // <Root>
+          <View style={{flex:1}}>
           <AppNavigation 
           screenProps={{
             t: this.t,
@@ -139,10 +142,10 @@ class App extends Component {
             // isConnected: isConnected
           }}
         />
-        
-        //  </Root>
+                 <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
+
+        </View>
          : <View/>}
-         <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
                 {/* </SafeAreaProvider> */}
           </PersistGate>
       </Provider>

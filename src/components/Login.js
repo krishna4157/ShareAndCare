@@ -187,7 +187,7 @@ class Login extends React.Component {
         isSuccess: 0.5
         
       })
-      showToast(JSON.stringify(e), 'danger', 3000);
+      showToast('Failed to login', 'danger', 3000);
 
     }, 5000);
 
@@ -408,7 +408,7 @@ class Login extends React.Component {
     source={logo}
     style={{height:150,width:150,alignSelf:'center',overflow:'hidden'}}
   />
-          <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>Share And Care</Text>
+          <Text style={{fontSize: 50, textAlign: 'center', margin: 10,fontFamily:'Winterland'}}>Share And Care</Text>
         </FadeInView>
       {/* </View> */}
       </Animated.View>
@@ -466,7 +466,10 @@ class Login extends React.Component {
               fontSize: 10}} >{props.errors.password}</Text>
             ) : null}
             <TouchableOpacity
-                    onPress={() => { setTimeout(() => { this.forgotPassword() }, 0) } }
+                    onPress={() => { setTimeout(() => { 
+                      // this.forgotPassword() 
+                      navigation.navigate('PinScreen');
+                    }, 0) } }
                     style={{marginTop: 15}}
                     >
                        {/* <Button transparent info> */}
@@ -535,7 +538,8 @@ style={{zIndex:10,position:'absolute',padding:10,height:35,borderRadius:30,margi
               ]}}>
             <Button
             onPress={()=>{
-              navigation.replace('CreateAccount');
+              // navigation.replace('CreateAccount');
+              navigation.navigate('SendNotificationScreen');
             }}
             style={{borderRadius:30,backgroundColor:'orange'}}
             >
@@ -604,6 +608,7 @@ const FadeInView = (props) => {
       {
         toValue: 1,
         duration: 1000,
+        useNativeDriver: false,
       }
     ).start();
   }, [fadeAnim])

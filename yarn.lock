@@ -15884,6 +15884,13 @@ react-native-localization@^2.1.6:
   dependencies:
     react-localization "^1.0.14"
 
+react-native-next-input@^0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/react-native-next-input/-/react-native-next-input-0.10.3.tgz#95d938eadc245333af1140fce078afda2f69eb5e"
+  integrity sha512-tCzZwjKGyio6JVfHVZ9ZZIzmO6lhhWRdP4xSKCDj85+d5AFyOtq96Z5o1qJhaff2QUGRcAtMcNCxitwiESOXNQ==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-offline-toast@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-offline-toast/-/react-native-offline-toast-1.0.0.tgz#7743e8c26d86191bd21302e6c622afadd0d73d48"
@@ -15928,6 +15935,18 @@ react-native-phone-input@^0.2.4:
     google-libphonenumber "^3.2.2"
     lodash "^4.17.4"
     prop-types "^15.5.10"
+
+react-native-pin-code@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/react-native-pin-code/-/react-native-pin-code-0.5.3.tgz#3a7b140a4925e6f590e0f27ef2073237f852f613"
+  integrity sha512-vlHHjQGLagdtaaCWs5bYUw02i58BvGazrzUfrBs+0HfWfNXRYR4ZkJOzvlreT541Hm4+TyQa4JX2Ppt0Sv9ceA==
+  dependencies:
+    prop-types "^15.5.10"
+
+react-native-pins@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-pins/-/react-native-pins-1.0.4.tgz#7109b413d7ceaec8159d7715cc51688e27f8cb9b"
+  integrity sha512-KKC03hV5141jijMcXXF6ZwKpdLzvCi9xBFr5Cb/jcUI4BFG/st8osnlheyEoVw0kfUC5GPXjh3PKWEY5FKiu6w==
 
 react-native-popup-dialog@^0.18.3:
   version "0.18.3"

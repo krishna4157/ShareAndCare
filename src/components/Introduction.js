@@ -95,6 +95,7 @@ export default class Introduction extends React.Component {
         // User finished the introduction. Show real app through
         // navigation or simply by controlling state
         this.setState({ showRealApp: true });
+        this.props.navigation.navigate('User');
         alert('New updates comming soon');
     }
 
