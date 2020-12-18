@@ -72,16 +72,16 @@ state = {
     
       
     render(){
-        const  {text,navigation} = this.props;
+        const  {title,navigation} = this.props;
         var array = [UserImage,UserImage1];
         var randomNumber = Math.floor(Math.random() * Math.floor(array.length));
         return (
-        <View style={{flexDirection:'row',padding:5,justifyContent:'space-between',backgroundColor:'#00b9e7',zIndex:20,height:'7%',borderBottomLeftRadius:50,borderBottomRightRadius:0}}>
-        <Text style={{textAlign:'center',padding:10,paddingLeft:20,fontSize:25,fontFamily:'RalewayBoldItalic'}}>Header</Text>
+        <View style={{flexDirection:'row',padding:5,justifyContent:'space-between',backgroundColor:'#00b9e7',zIndex:20,height:'8%',borderBottomLeftRadius:50,borderBottomRightRadius:0}}>
+        <Text style={{textAlign:'center',padding:10,paddingLeft:20,fontSize:25,fontFamily:'RalewayBoldItalic'}}>{title}</Text>
         <TouchableOpacity onPress={()=>{
             this.props.navigation.navigate('ViewAccount');
         }} style={{padding:10,backgroundColor:'transparent',}}>
-        <Image source={array[randomNumber]} style={{height:60,width:60,borderWidth:5,borderColor:'#00b9e7',borderRadius:30}} />
+        <Image source={UserImage1} style={{height:60,width:60,borderWidth:5,borderColor:'#00b9e7',borderRadius:30}} />
         </TouchableOpacity>
         </View>);
     }

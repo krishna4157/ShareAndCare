@@ -133,7 +133,6 @@ class App extends Component {
                 
       // {disappear ==false && <OfflineNotice isInternetReachable={isInternetReachable} isConnected={this.state.isConnected} />} 
           !loading ? 
-          <View style={{flex:1}}>
           <AppNavigation 
           screenProps={{
             t: this.t,
@@ -142,12 +141,12 @@ class App extends Component {
             // isConnected: isConnected
           }}
         />
-                 <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
-
-        </View>
          : <View/>}
+          <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
+
                 {/* </SafeAreaProvider> */}
           </PersistGate>
+
       </Provider>
     );
   }

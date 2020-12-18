@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { retrieveLogin } from '../actions/login';
-// import { getDeviceToken } from '../utils/pushNotification/configurePushNotification';
-import { setCurrentScreen } from '../actions/storeAppStatus';
 import Login from '../components/Login';
-class LoginScreen extends Component {
+import { retrieveLogin } from '../actions/login';
+import {localeStore} from '../utils/localization/localizationUtils';
+// import { getDeviceToken } from '../utils/pushNotification/configurePushNotification';
+import {setCurrentScreen} from '../actions/storeAppStatus';
+// import { setupInitialHealthKit, getWeight } from '../utils/healthKit/Healthkit';
+import { Platform } from "react-native";
+import CreateAccoount from "../components/CreateAccount";
+import EditProfileScreen from "../components/EditProfile";
+class EditProfilePage extends Component {
     state={
         deviceToken: '',
     };
@@ -36,10 +41,14 @@ class LoginScreen extends Component {
         const { deviceToken } = this.state;
         console.log(screenProps)
         return (
-            <Login
+            <EditProfileScreen
+            setCurrentScreen={setCurrentScreen}
             currentScreen={currentScreen}
              navigation={navigation}
-           
+            retrieveLogin={reqLogin}
+            selectedLanguage={selectedLanguage}
+            deviceToken={deviceToken}
+            loading={loading}
             screenProps={screenProps}
             deviceLocation={deviceLocation}
             />
@@ -62,4 +71,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfilePage);

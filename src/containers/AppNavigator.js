@@ -12,6 +12,7 @@ import  {storeSyncStatus,updateSyncCompleteStatus} from '../actions/storeAppStat
 import _ from 'lodash';
 // import AsyncStorage from "@react-native-community/async-storage";
 import Popup from "../components/Popup";
+import HeaderComponent from "../components/Header";
 var i=0;
 
 class AppNavigation extends Component {

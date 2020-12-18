@@ -1,58 +1,12 @@
-import React, { useRef, useEffect } from 'react';
-import { View, Keyboard, Image,TextInput, Text as RcText, Dimensions, StatusBar, Platform, TouchableOpacity, ActivityIndicator,Animated, KeyboardAvoidingView } from 'react-native';
-import { Input, Item, Button,Text, Icon, Card, CardItem, Body } from 'native-base';
-import { createForm } from 'rc-form';
-import { MaterialIcons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
-import { CustomPicker } from 'react-native-custom-picker';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import PhoneNumberInput from './PhoneNoInput';
-import { SocialIcon } from 'react-native-elements';
-
-import {
-    BallIndicator,
-    BarIndicator,
-    DotIndicator,
-    MaterialIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
-    UIActivityIndicator,
-    WaveIndicator,
-  } from 'react-native-indicators';
-// import { validateLoginDetails } from '../utils/loginUtils';
-import { backgroundColor } from '../containers/NavigationScreens';
-import logo from '../assets/images/butterfly.gif';
-import success from '../assets/images/success.gif';
-import error from '../assets/images/error.png';
-
-import { NavigationEvents } from 'react-navigation';
-// import CustomToast from './CustomToast'; 
-import Constants from 'expo-constants';
-import { ScrollView } from 'react-native-gesture-handler';
-// import { changeLanguage } from '../actions/changeLanguage';
-import { Formik, ErrorMessage } from 'formik';
-import PhoneInput from 'react-native-phone-input';
-import CountryPicker from 'react-native-country-picker-modal';
-import * as Yup from 'yup';
-// import { encrypt } from '../utils/cryptoUtil';
-import moment from 'moment';
-import { validatePhoneNumber } from '../utils/phoneNumberValidation';
-// import PhoneNoInput from './PhoneNoInput';
-// import PhNumberInput from './PhNumberInput';
-import axios from 'axios';
-import Colors from '../constants/Colors';
-import { StyleSheet } from 'react-native-web';
-import PhNumberInput from './PhNumberInput';
+import { Text } from 'native-base';
+import React from 'react';
+import { View } from 'react-native';
 // import { fetchBodyTemperature, fetchLatestWeight, getWeight, testData } from '../utils/healthKit/Healthkit';
 // import { saveHealthkitData } from '../actions/healthkit';
 import showToast from '../utils/toast';
-import api from '../utils/api';
-import { PinInput } from 'react-native-pins';
-import CodePin  from 'react-native-pin-code';
-import NextTextInput from 'react-native-next-input';
-import PinInputBox from './PinInputBox';
 import Pin from './Pin';
-import HeaderComponent from './Header';
+
+
 
 
 class PinScreen extends React.Component {
@@ -62,21 +16,32 @@ state = {
 }
 
   getPin = (value) => {
+    const  {title,navigation,oldPin,newPin,submitPin} = this.props;
+
     this.setState({
       pin : value
     });
-    alert(this.state.pin);
+    if(submitPin){
+      navigation.navigate('ViewAccount');  
+      showToast('Pin Changed Successfully.','success',3000);
+    } else
+    if(newPin){
+      navigation.navigate('PinScreen',{ changePin : true,submitPin: true,newPin: true, title : 'Re-Enter New Pin',oldPin : value});  
+
+    } else {
+    navigation.navigate('PinScreen',{ changePin : true,submitPin: false,newPin: true, title : 'Enter New Pin',oldPin : '123456'});  
+    }
   }
     
 
     
       
     render(){
-        const  {text,navigation} = this.props;
+        const  {title,navigation,oldPin,newPin,submitPin} = this.props;
         return (
         <View style={{flex:1,backgroundColor:'transparent',height:'100%'}}>
-        <Text style={{textAlign:'center',padding:50,fontSize:25,fontFamily:'RalewayBoldItalic'}}>Enter PIN</Text>
-          <Pin wrongPinColor={'#fc4236'} wrongPinMessage={'Wrong pin entered.'} errorMessage= {'Invalid PIN'} getPin={this.getPin} fillColor={'#148aca'} noOfInput={6}  round={true} />
+        <Text style={{textAlign:'center',padding:50,fontSize:25,fontFamily:'RalewayBoldItalic'}}>{title}</Text>
+          <Pin submitPin={submitPin} newPin={newPin} pin={oldPin} wrongPinColor={'#fc4236'} wrongPinMessage={'Wrong pin entered.'} errorMessage= {'Invalid PIN'} getPin={this.getPin} fillColor={'#148aca'} noOfInput={6}  round={true} />
         </View>);
     }
 }

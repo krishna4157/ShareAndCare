@@ -3,7 +3,7 @@ import { Feather } from "@expo/vector-icons";
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import React, {Component, useContext, useState, useEffect} from 'react';
 import wrong from '../assets/images/wrong1.gif';
-import tick from '../assets/images/tick.gif';
+import tick from '../assets/images/tick2.gif';
 
 import { Image } from "react-native";
 
@@ -17,7 +17,7 @@ return (<View style={{ flex:1,borderLeftColor:getColorByType(type),borderLeftWid
   />}
     {type=='success' && <Image
     source={tick}
-    style={{height:30,width:30,marginLeft:-10,alignSelf:'center',overflow:'hidden'}}
+    style={{height:20,width:20,marginLeft:-10,alignSelf:'center',overflow:'hidden'}}
   />}
     {type=='info' && <Feather name="info" size={24} color="#c7eafd" />}
     </View>

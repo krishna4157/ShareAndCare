@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Login from '../components/Login';
 import { retrieveLogin } from '../actions/login';
-import {localeStore} from '../utils/localization/localizationUtils';
 // import { getDeviceToken } from '../utils/pushNotification/configurePushNotification';
-import {setCurrentScreen} from '../actions/storeAppStatus';
-// import { setupInitialHealthKit, getWeight } from '../utils/healthKit/Healthkit';
-import { Platform } from "react-native";
+import { setCurrentScreen } from '../actions/storeAppStatus';
 import SendNotificationScreen from "../components/SendNotificationScreen";
 class SendNotificationPage extends Component {
     state={

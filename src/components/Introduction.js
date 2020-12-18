@@ -1,14 +1,12 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { StyleSheet, View,Text, SafeAreaView, Dimensions, Image,Clipboard  } from 'react-native';
+import { Clipboard, Dimensions, Image, Text, View } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import logo from '../assets/images/butterfly.gif';
 import showToast from '../utils/toast';
-
-import Login from './Login';
 import FirstAppTour from './FirstAppTour';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
+
 const slides = [
     {
       key: 'one',
@@ -115,7 +113,7 @@ export default class Introduction extends React.Component {
 
     render() {   
         return (
-            <View style={{flex:1,marginTop:30}}>
+            <View style={{flex:1,marginTop:0}}>
             <AppIntroSlider renderDoneButton={this.getDoneButton} renderNextButton={this.getNextButton} renderItem={this.renderItem} data={slides} onDone={this.onDone}/>
             </View>
         );

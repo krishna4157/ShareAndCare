@@ -1,17 +1,12 @@
-import { MaterialIcons } from '@expo/vector-icons';
 // import { changeLanguage } from '../actions/changeLanguage';
 import { Formik } from 'formik';
 import { Button, Input, Item, Text } from 'native-base';
 import React, { useRef } from 'react';
-import { Animated, Image, Text as RcText, TouchableOpacity, View } from 'react-native';
-import { SocialIcon } from 'react-native-elements';
+import { Animated, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-web';
 import { NavigationEvents } from 'react-navigation';
 import * as Yup from 'yup';
-import logo from '../assets/images/butterfly.gif';
-// import { validateLoginDetails } from '../utils/loginUtils';
-import { backgroundColor } from '../containers/NavigationScreens';
-import api from '../utils/api';
 import { validatePhoneNumber } from '../utils/phoneNumberValidation';
 // import { fetchBodyTemperature, fetchLatestWeight, getWeight, testData } from '../utils/healthKit/Healthkit';
 // import { saveHealthkitData } from '../actions/healthkit';
@@ -21,7 +16,7 @@ import PhNumberInput from './PhNumberInput';
 
 
 
-class Login extends React.Component {
+class EditProfileScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +28,8 @@ class Login extends React.Component {
       moveRightValue: new Animated.Value(360),
       endValue: 30,
       buttonEndValue: -5,
-
+      newValue: '',
+      height: 90,
       endMoveValue: 300,
       duration: 3000,
       isVisible: false,
@@ -44,7 +40,6 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    
     Animated.timing(this.state.startValue, {
       toValue: this.state.endValue,
       duration: this.state.duration,
@@ -63,10 +58,14 @@ class Login extends React.Component {
     }, 500);
   }
 
+  updateSize = (height) => {
+    this.setState({
+      height
+    });
+  }
 
-  getCorrectPassword = async(data) => {
-    const {navigation}= this.props;
-    try {
+
+  getCorrectPassword = () => {
     this.setState({
       statusColor: 'blue'
     });
@@ -103,18 +102,13 @@ class Login extends React.Component {
     }, 5000);
     setTimeout(() => {
       showToast('Login Successfully', 'success', 3000);  
-      // navigation.navigate("NextScreenWithData",{'BackendData' : data})
-      // Introduction
-      navigation.navigate("Introduction");
     }, 6000);
-  } catch(e){
-    this.getWrongPassword()
-  }
+    
 
   }
 
 
-  getWrongPassword = (e) => {
+  getWrongPassword = () => {
     this.setState({
       statusColor: 'blue'
     });
@@ -257,28 +251,19 @@ class Login extends React.Component {
   //   //   navigation.navigate('ResetPassword');
   // }
     
-  checkValues = async (values) => {
-   try {
-      const user  = {
-        phoneNo : values.phoneNo,
-        loginPassword: values.password 
-      };
-      const res = await api.post("/login",user);
-      console.log(res.data);
-      this.getCorrectPassword(res.data);
-    
-    } catch(e) {
-      console.log(e);
-      this.getWrongPassword(e);
-    }
-  }
     
       
     render(){
         const { image, subject, errorMessage, showPassword,language,languageSelected, callingCode, modalVisible,isPasswordVisible } = this.state;
-        const {  navigation, screenProps, deviceLocation } = this.props;
+        const { loading, navigation, screenProps,currentScreen, deviceLocation } = this.props;
         const { t } = screenProps;
         const  { isVisible,statusColor,isSuccess } =this.state;
+
+        const {newValue, height} = this.state;
+
+    let newStyle = {
+      height
+    }
       // alert(callingCode);
       const BackgroundColorConfig = this.Animation.interpolate(
         {
@@ -309,7 +294,7 @@ class Login extends React.Component {
 
       return (
         <Formik
-        initialValues={{ phoneNo: '', password: '' ,
+        initialValues={{ phoneNo: '', password: '' ,confirmPassword: ''
         // language: ''
       }}
         validationSchema={Yup.object({
@@ -320,20 +305,21 @@ class Login extends React.Component {
              .required(t('USRNAMEWARNING')),
           password: Yup.string()
             .required(t('PWDWARNING')),
+            confirmPassword: Yup.string()
+            .required(t('PWDWARNING')),
+
             // language: Yup.string()
             // .required(t('LanguageValidate'))
         })}
         onSubmit={(values, formikActions) => {
           setTimeout(() => {
             // console.log(JSON.stringify(values));
-            // if(values.password=='Asdx#123'){
-              
-            //   this.getCorrectPassword(values);
-            // } else 
-            // {
-            //   this.getWrongPassword();
-            // }
-            this.checkValues(values);
+            if(values.password=='Asdx#123'){
+              this.getCorrectPassword();
+            } else 
+            {
+              this.getWrongPassword();
+            }
             // Alert.alert(JSON.stringify(values));
             //  this.onSubmit(values);
             // Important: Make sure to setSubmitting to false so our loading indicator
@@ -353,37 +339,30 @@ class Login extends React.Component {
           return (
 
             // <KeyboardAvoidingView>
-            <View style={{flex:1,height:'100%'}}>
+            <View style={{flex:1,height:'100%',justifyContent:'center'}}>
                   <NavigationEvents
                 //  onWillFocus={() => {
                 //      this.resetCredentials();
                 //    }}
                />
-               <Animated.View 
+               
+                   <Animated.View 
         style={{
-          flex:3,
+          flex:1,
           borderBottomRightRadius:this.state.moveRightValue,
           borderBottomLeftRadius:this.state.moveLeftValue,
           backgroundColor: isSuccess == 0.5 ? FailureBackgroundColor : isSuccess ==1 ? SuccessBackgroundColor : isSuccess>1 ? 'white' :BackgroundColorConfig
         }}>
-        {/* <View
-          style={
-            {
-              flex:1,
-              backgroundColor:'red',
-              
-          }}
-        >           */}
-        <FadeInView>
-        {/* isSuccess == 0.5 ? FailureBackgroundColor : isSuccess ==1 ? SuccessBackgroundColor : isSuccess>1 ? 'white' :BackgroundColorConfig */}
-       <Image
-    source={logo}
-    style={{height:150,width:150,alignSelf:'center',overflow:'hidden'}}
-  />
-          <Text style={{fontSize: 50, textAlign: 'center', margin: 10,fontFamily:'Winterland'}}>Share And Care</Text>
-        </FadeInView>
-      {/* </View> */}
-      </Animated.View>
+          <Button style={{marginTop:40,borderTopRightRadius:30,borderBottomRightRadius:30,backgroundColor:'#c90400'}} onPress={()=>{
+                   navigation.goBack();
+               }}>
+                   <Text>     Back        </Text>
+                   </Button>
+                   <View style={{marginTop:15}}>
+                   <Text style={{justifyContent:'center',textAlign:'center',fontSize:40,fontFamily:'RalewayBold'}}>Edit Profile</Text>
+                    </View>
+
+          </Animated.View>
       <Animated.View style={{flex:3,
       padding:10
       ,transform: [
@@ -393,7 +372,10 @@ class Login extends React.Component {
                 },
               ],}}>
              {isVisible && <FadeInView>
-               <View>
+              <ScrollView>
+            
+
+            <View>
                     <PhNumberInput 
                     // deviceLocation={deviceLocation}
                     callingCode={callingCode}
@@ -406,11 +388,10 @@ class Login extends React.Component {
                >{props.errors.phoneNo}</Text>
             ) : null}
             </View>
-            
-            {/* </View> */}
+
             <View style={{padding:10}}>
+                <Text style={{fontSize:20}}>First Name</Text>
             <Item style={[styles.inputStyle]}>
-                           <MaterialIcons name='lock-outline' size={20} color="#bdbdbd" style={styles.icon} />
                            <Input 
                            keyboardType="default"
                            value = {props.values.password}
@@ -421,86 +402,75 @@ class Login extends React.Component {
                            style={{outlineWidth: 0}} 
                            onChangeText={props.handleChange('password')}
                            />
-                           <TouchableOpacity onPress={()=>{
-                             this.setState({
-                               isPasswordVisible:!this.state.isPasswordVisible
-                             })
-                           }}>
-                           {this.state.isPasswordVisible ? 
-                           <MaterialIcons name='visibility' size={20} color="#bdbdbd" style={styles.icon} /> : 
-                           <MaterialIcons name='visibility-off' size={20} color="#bdbdbd" style={styles.icon} /> 
-                           }
-                           </TouchableOpacity>
+                            
+    
        {/* { Platform.OS !=='ios' ? <MaterialCommunityIcons name={showPassword ? "eye-off" : "eye"} size={25} color="#bdbdbd" style={{ marginRight: 10 }} onPress={() => this.showPassword()}/> : <View/> } */}
                        </Item>
             {props.touched.password && props.errors.password ? (
               <Text  style={{color: 'red',
               fontSize: 10}} >{props.errors.password}</Text>
             ) : null}
-            <TouchableOpacity
-                    onPress={() => { setTimeout(() => { 
-                      // this.forgotPassword() 
-                      navigation.navigate('PinScreen');
-                    }, 0) } }
-                    style={{marginTop: 15}}
-                    >
-                       {/* <Button transparent info> */}
-                           <RcText style={[styles.buttonText, {color: backgroundColor,fontSize:10}]}>{t('LoginACSFrgtPwd')}</RcText>
-                       {/* </Button> */}
-                   </TouchableOpacity>
+           
             </View>
-            {/* <View style={{padding:10}}>
-                      <TouchableOpacity
-                       onPress={() => {
-                        navigation.navigate('ChangeLanguage', {fromLogin: true,selectLanguage:this.selectLanguage.bind(this)})
-                      }} style={{ position: 'absolute', marginTop: Platform.OS != 'web' ? 30 : 10,padding:Platform.OS != 'web' ? 0 : 10, zIndex: 3, height: 40, width: '100%'}}></TouchableOpacity>
-                    <Item style={[styles.inputStyle]}>
-                      <MaterialIcons name="translate" size={20} color={"#C0C0C0"} style={styles.icon}/>
-                      <Input
-                          disabled
-                          onChangeText={this.onchangeLangauge(props)}      
-                          onBlur={props.handleBlur('language')}
-                          style={styles.inputText}
-                          value={props.values.language}
-                          placeholder={t('Actn_sheetChange_Language')}
-                          placeholderTextColor='#bdbdbd'
-                          // keyboardType="default"  
-                      />
-                    </Item>
-            {props.touched.language && props.errors.language && props.values.language=='' ? (
-              <Text style={styles.error} >{props.errors.language}</Text>
+
+            <View style={{padding:10}}>
+                <Text style={{fontSize:20}}>Last Name</Text>
+            <Item style={[styles.inputStyle]}>
+                           <Input 
+                           keyboardType="default"
+                           value = {props.values.password}
+                          //  value={subject.password} 
+                           placeholder={'Last Name'} 
+                           placeholderTextColor='#bdbdbd' 
+                           secureTextEntry={isPasswordVisible ? false : true} 
+                           style={{outlineWidth: 0}} 
+                           onChangeText={props.handleChange('password')}
+                           />
+                            
+    
+       {/* { Platform.OS !=='ios' ? <MaterialCommunityIcons name={showPassword ? "eye-off" : "eye"} size={25} color="#bdbdbd" style={{ marginRight: 10 }} onPress={() => this.showPassword()}/> : <View/> } */}
+                       </Item>
+            {props.touched.password && props.errors.password ? (
+              <Text  style={{color: 'red',
+              fontSize: 10}} >{props.errors.password}</Text>
             ) : null}
-            </View> */}
-            {/* <View style={{padding:10,marginTop:30,marginLeft:30,flexDirection:'row',justifyContent:'space-between'}}>
-          
-             <Button
-style={{zIndex:10,position:'absolute',padding:10,height:35,borderRadius:30,marginLeft:250,backgroundColor:backgroundColor}}
-             
-            onPress={props.handleSubmit}
-            
-              >
-            <Text style={{ color: 'white',fontSize:10 }}>       {t('LoginACSLogin')}        </Text>
-          
-            </Button>
-         
            
+            </View>
+
+            <View style={{padding:10}}>
+                <Text style={{fontSize:20}}>Address</Text>
+            <Item style={[styles.inputStyle]}>
+                           <Input 
+                           keyboardType="default"
+                           value = {props.values.password}
+                          //  value={subject.password} 
+                           placeholder={'Address'} 
+                           placeholderTextColor='#bdbdbd' 
+                           secureTextEntry={isPasswordVisible ? false : true} 
+                           style={[newStyle],{padding:10}}                           
+                           onChangeText={props.handleChange('password')}
+                           editable={true}
+  multiline={true}
+//   value={value}
+  onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+                           />
+                            
+    
+       {/* { Platform.OS !=='ios' ? <MaterialCommunityIcons name={showPassword ? "eye-off" : "eye"} size={25} color="#bdbdbd" style={{ marginRight: 10 }} onPress={() => this.showPassword()}/> : <View/> } */}
+                       </Item>
+            {props.touched.password && props.errors.password ? (
+              <Text  style={{color: 'red',
+              fontSize: 10}} >{props.errors.password}</Text>
+            ) : null}
            
-            <Animated.View style={{position:'absolute',marginTop:10,width:'100%',justifyContent:'space-between',flexDirection:'row',transform: [
-                {
-                  translateX: this.state.ButtonStartValue,
-                  
-                },
-              ]}}>
-<Button style={{padding:10,height:35,borderRadius:30,marginLeft:-30,backgroundColor:'orange'}}>
-<Text style={{fontSize:10}}>          New User ? </Text>
-</Button>
-<View style={{marginTop:50}}>
-<Text style={{justifyContent:'center',alignSelf:'center',fontSize:10}}>OR</Text>
+            </View>
+
+
             
-</View>
-</Animated.View>
-            </View> */}
-            <View style={{flexDirection:'column',marginTop:10}}>
+            {/* </View> */}
+            
+            
+            <View style={{flexDirection:'column',marginTop:-20}}>
             <View style={{marginLeft:-30,marginBottom:10,width:'120%',flexDirection:'row',justifyContent:'space-between',}}>
             <Animated.View style={{transform: [
                 {
@@ -508,33 +478,33 @@ style={{zIndex:10,position:'absolute',padding:10,height:35,borderRadius:30,margi
                   
                 },
               ]}}>
-            <Button
-            onPress={()=>{
-              // navigation.replace('CreateAccount');
-              navigation.navigate('SendNotificationScreen');
-            }}
-            style={{borderRadius:30,backgroundColor:'orange'}}
-            >
-              <Text>        New User ?</Text>
-              </Button>
+            
               </Animated.View>
+              <View style={{marginBottom:20}}>
             <Button
             onPress={props.handleSubmit}
-            style={{borderRadius:30}}
+            style={{borderRadius:30,marginTop:90,backgroundColor:'#26abff'}}
             >
-              <Text>      LOGIN                 </Text>
+              <Text>      UPDATE                 </Text>
               </Button>
               </View>
+              </View>
               
-              <Text style={{justifyContent:'center',textAlign:'center'}}>OR</Text>
-              
+              {/* <Text style={{justifyContent:'center',textAlign:'center'}}>OR</Text>
+              <SocialIcon
+            button={true}          
+            title='Sign In With Facebook'
+            iconSize={15}
+            type='facebook'
+            />
             <SocialIcon
             iconSize={15}
             title={"Sign In With Google"}
             button={true}
             type={"google"}
-            />
+            /> */}
             </View>
+            </ScrollView>
             </FadeInView>}
             </Animated.View>
             
@@ -580,7 +550,6 @@ const FadeInView = (props) => {
       {
         toValue: 1,
         duration: 1000,
-        useNativeDriver: false,
       }
     ).start();
   }, [fadeAnim])
@@ -597,4 +566,10 @@ const FadeInView = (props) => {
   );
 }
 
-export default Login;
+export default EditProfileScreen;
+
+
+// editable={true}
+//   multiline={true}
+//   value={value}
+//   onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}

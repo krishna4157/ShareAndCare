@@ -1,16 +1,11 @@
 import React, { Component } from "react";
+// import { setupInitialHealthKit, getWeight } from '../utils/healthKit/Healthkit';
+import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Login from '../components/Login';
 import { retrieveLogin } from '../actions/login';
-import {localeStore} from '../utils/localization/localizationUtils';
 // import { getDeviceToken } from '../utils/pushNotification/configurePushNotification';
-import {setCurrentScreen} from '../actions/storeAppStatus';
-// import { setupInitialHealthKit, getWeight } from '../utils/healthKit/Healthkit';
-import { Platform, View } from "react-native";
-import AccountDetailsScreen from "../components/AccountDetails";
-import { Text } from "react-native";
-import HeaderComponent from "../components/Header";
+import { setCurrentScreen } from '../actions/storeAppStatus';
 import ViewAccount from "../components/ViewAccount";
 class ViewAccountScreeen extends Component {
     state={
@@ -41,7 +36,7 @@ class ViewAccountScreeen extends Component {
     render() {
         const { navigation, } = this.props;
         const { deviceToken } = this.state;
-        const text = navigation.getParam("BackendData");
+        // const text = navigation.getParam("BackendData");
         return (
             <View style={{flex:1,marginTop:30}}>
             {/* <HeaderComponent navigation={navigation} />  */}

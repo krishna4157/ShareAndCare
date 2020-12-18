@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
 
         return (
          
-            <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', }}>
+            <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center',marginTop:30 }}>
                 <Introduction
                  navigation={navigation}
                

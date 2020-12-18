@@ -1,16 +1,11 @@
 import React, { Component } from "react";
+import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Login from '../components/Login';
 import { retrieveLogin } from '../actions/login';
-import {localeStore} from '../utils/localization/localizationUtils';
 // import { getDeviceToken } from '../utils/pushNotification/configurePushNotification';
-import {setCurrentScreen} from '../actions/storeAppStatus';
-// import { setupInitialHealthKit, getWeight } from '../utils/healthKit/Healthkit';
-import { Platform } from "react-native";
+import { setCurrentScreen } from '../actions/storeAppStatus';
 import PinScreen from "../components/PinScreen";
-import { View } from "react-native";
-import HeaderComponent from "../components/Header";
 class PinPage extends Component {
     state={
         deviceToken: '',
@@ -40,11 +35,18 @@ class PinPage extends Component {
     render() {
         const { navigation, } = this.props;
         const { deviceToken } = this.state;
-        const text = navigation.getParam("BackendData");
+        const title = navigation.getParam("title");
+        const changePin = navigation.getParam("ChangePin");
+        const oldPin = navigation.getParam("oldPin");
+        const newPin = navigation.getParam("newPin");
+        const submitPin = navigation.getParam("submitPin");
+        
+        
+
         return (
             <View style={{flex:1,marginTop:30}}>
-            <PinScreen navigation={navigation}
-                text={text}
+            <PinScreen submitPin={submitPin} newPin={newPin} oldPin={oldPin} changePin={changePin} title={title} navigation={navigation}
+                title={title}
             />
             </View>
         );

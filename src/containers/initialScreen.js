@@ -1,10 +1,10 @@
 import React from 'react';
-import { BackHandler, StyleSheet, View, Text, Platform } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { secureStorageContainsPin } from '../utils/secureStorageUtils';
 import { storeDeviceLocationDetails } from '../actions/deviceLocation';
 import { findDeviceLocationDetails } from '../utils/deviceLocationUtils';
+import { secureStorageContainsPin } from '../utils/secureStorageUtils';
 
 class InitialScreen extends React.Component {
    state={

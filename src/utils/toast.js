@@ -1,6 +1,5 @@
-import { Platform } from 'react-native';
-import Toast from 'react-native-toast-message'
 import _ from 'lodash';
+import Toast from 'react-native-toast-message';
 
 export default (text, type, duration, buttonText, textStyle) => {
     let loType = _.replace(type, 'danger', 'error');
